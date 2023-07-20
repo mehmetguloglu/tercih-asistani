@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Tercih Asistanı",
+    "slug": "tercih-asistani",
+    "scheme": "tercih-asistani",
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "icon": "./assets/tercih-asistani-icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "buildNumber": "1.2.0",
+      "bundleIdentifier": "com.tercih-asistani.app",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.tercih_asistani.app",
+      "versionCode": 3,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/tercih-asistani-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/tercih-asistani-icon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0381792d-38c0-4666-a966-5f8e90b35e50"
+      }
+    }
+  }
+}
