@@ -9,6 +9,7 @@ import { Feather } from "@expo/vector-icons";
 import { setInput } from "../../../bussiness/reducers/universityDetailsReducer";
 import { UniversityDetailsFlashList } from "../../../components/university-details-components";
 import { setFilterPointType } from "../../../bussiness/reducers/universityDetailsReducer";
+import UniversityLogo from "../../../components/UniversityLogo";
 
 const Detail = () => {
   const router = useRouter();
@@ -34,10 +35,13 @@ const Detail = () => {
             ai="center"
             borderRadius={8}
           >
-            <Image
-              width={44}
-              height={44}
-              source={require("../../../assets/image4.png")}
+            <UniversityLogo
+              item={selectedUniversity}
+              settings={{
+                resizeMode: "stretch",
+                width: 50,
+                height: 50,
+              }}
             />
           </Stack>
           <Text my={8} fontWeight={"600"} fontSize={16} ta="center">

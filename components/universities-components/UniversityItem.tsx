@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useAppDispatch } from "../../bussiness/hooks";
 import { Stack, Text, Image } from "tamagui";
 import Ribbon from "../Ribbon";
+import UniversityLogo from "../UniversityLogo";
 
 const UniversityItem = ({ item }) => {
   const route = useRouter();
@@ -16,13 +17,15 @@ const UniversityItem = ({ item }) => {
 
   return (
     <Pressable onPress={universityPress} style={[styles.universityItem]}>
-      <Image
-        resizeMode="stretch"
-        width={38}
-        height={40}
-        my={18}
-        mx={11}
-        source={require("../../assets/image4.png")}
+      <UniversityLogo
+        item={item}
+        settings={{
+          resizeMode: "stretch",
+          width: 38,
+          height: 40,
+          my: 18,
+          mx: 11,
+        }}
       />
       <Stack f={1} jc="center">
         <Text color={"black"} fontSize={16} fontWeight={"500"}>
@@ -36,7 +39,6 @@ const UniversityItem = ({ item }) => {
           </Text>
         </View> */}
       </Stack>
-
       <Ribbon
         bg={item.type == 2 ? "#3268bf" : item.type == 1 ? "#eda547" : "#cc434a"}
         bgb={
