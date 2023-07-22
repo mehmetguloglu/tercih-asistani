@@ -168,9 +168,10 @@ const Detail = () => {
         numColumns={
           Platform.isPad || Platform.OS == "macos" || width > 700 ? 2 : 1
         }
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <DepartmentDetailsItem
             item={item}
+            index={index}
             departmentName={selectedDepartment.name}
           />
         )}

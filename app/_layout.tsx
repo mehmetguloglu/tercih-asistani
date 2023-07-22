@@ -13,7 +13,13 @@ import { Provider } from "react-redux";
 import { store } from "../bussiness/redux-store";
 import config from "../tamagui.config";
 import { PreferencesButton } from "../components";
+import mobileAds from "react-native-google-mobile-ads";
 
+mobileAds()
+  .initialize()
+  .then((adapterStatuses) => {
+    // Initialization complete!
+  });
 export default function Layout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -47,7 +53,7 @@ export default function Layout() {
                     headerTitle: "Tercih Asistanı",
                     headerTitleStyle: { fontSize: 24, fontWeight: "600" },
                     headerTitleAlign: "center",
-                    // headerRight: () => <PreferencesButton />,
+                    headerRight: () => <PreferencesButton />,
                   }}
                 />
                 <Stack.Screen

@@ -124,7 +124,9 @@ const Departments = () => {
             estimatedItemSize={76}
             data={filterData}
             keyExtractor={(item: any) => item.name}
-            renderItem={({ item }) => <DepartmentItem item={item} />}
+            renderItem={({ item, index }) => (
+              <DepartmentItem item={item} index={index} />
+            )}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={
               isLoading ? (

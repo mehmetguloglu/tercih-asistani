@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const preferencesReducer = createSlice({
   name: "preferencesReducer",
   initialState: {
-    input: "",
+    preferencesId: [],
   },
   reducers: {
-    setInput(state, action) {
-      state.input = action.payload;
+    setPreferencesId(state, action) {
+      state.preferencesId = action.payload;
     },
   },
 });
 
-export const { setInput } = preferencesReducer.actions;
+export const { setPreferencesId } = preferencesReducer.actions;
 export default preferencesReducer.reducer;

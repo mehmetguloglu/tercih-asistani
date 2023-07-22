@@ -59,7 +59,9 @@ const UniversitiesFlashList = ({
         ref={flatref}
         keyExtractor={(item: any) => item.name}
         data={filterData}
-        renderItem={({ item }) => <UniversityItem item={item} />}
+        renderItem={({ item, index }) => (
+          <UniversityItem item={item} index={index} />
+        )}
         numColumns={
           Platform.isPad || width > 700 || Platform.OS == "macos" ? 2 : 1
         }

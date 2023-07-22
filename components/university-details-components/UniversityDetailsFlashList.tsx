@@ -83,8 +83,8 @@ const UniversityDetailsFlashList = () => {
       showsVerticalScrollIndicator={false}
       keyExtractor={(item: any) => item.id}
       data={filterData}
-      renderItem={({ item }) => {
-        return <UniversityDetailsItem item={item} />;
+      renderItem={({ item, index }) => {
+        return <UniversityDetailsItem item={item} index={index} />;
       }}
     />
   );
