@@ -28,7 +28,10 @@
       "bundleIdentifier": "com.tercih-asistani.app",
       "supportsTablet": true
     },
-    "android": {
+    "android": { 
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-8545961952430100~8304578693"
+      },
       "package": "com.tercih_asistani.app",
       "versionCode": 3,
       "adaptiveIcon": {
