@@ -2,11 +2,6 @@ import React from "react";
 import { Stack, YStack } from "tamagui";
 import { useRouter } from "expo-router";
 import HomeButtons from "../components/home-components/HomeButtons";
-import {
-  BannerAd,
-  TestIds,
-  BannerAdSize,
-} from "react-native-google-mobile-ads";
 
 const App = () => {
   const route = useRouter();
@@ -33,10 +28,6 @@ const App = () => {
           onPress={() => {
             route.push("/departments");
           }}
-        />
-        <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         />
       </YStack>
     </Stack>

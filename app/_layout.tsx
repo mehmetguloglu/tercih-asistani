@@ -13,13 +13,13 @@ import { Provider } from "react-redux";
 import { store } from "../bussiness/redux-store";
 import config from "../tamagui.config";
 import { PreferencesButton } from "../components";
-import mobileAds from "react-native-google-mobile-ads";
+// import mobileAds from "react-native-google-mobile-ads";
 
-mobileAds()
-  .initialize()
-  .then((adapterStatuses) => {
-    // Initialization complete!
-  });
+// mobileAds()
+//   .initialize()
+//   .then((adapterStatuses) => {
+//     // Initialization complete!
+//   });
 export default function Layout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
