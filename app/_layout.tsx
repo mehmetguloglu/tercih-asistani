@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useColorScheme } from "react-native";
 import {
   DarkTheme,
@@ -13,19 +13,28 @@ import { Provider } from "react-redux";
 import { store } from "../bussiness/redux-store";
 import config from "../tamagui.config";
 import { PreferencesButton } from "../components";
-// import mobileAds from "react-native-google-mobile-ads";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import client from "../utils/client";
 
-// mobileAds()
-//   .initialize()
-//   .then((adapterStatuses) => {
-//     // Initialization complete!
-//   });
 export default function Layout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
+
+  useEffect(() => {
+    const userControl = async () => {
+      const user = await AsyncStorage.getItem("user");
+      if (user === null) {
+        const result = await client.post("/v1/MobileUser/RegisterUser");
+        if (result.data.isSuccessfull) {
+          await AsyncStorage.setItem("user", result.data.data);
+        }
+      }
+    };
+    userControl();
+  }, []);
 
   if (!loaded) {
     return null;
@@ -53,7 +62,7 @@ export default function Layout() {
                     headerTitle: "Tercih Asistanı",
                     headerTitleStyle: { fontSize: 24, fontWeight: "600" },
                     headerTitleAlign: "center",
-                    headerRight: () => <PreferencesButton />,
+                    // headerRight: () => <PreferencesButton />,
                   }}
                 />
                 <Stack.Screen
