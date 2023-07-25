@@ -1,9 +1,10 @@
 import useSWR from "swr";
-const fetcher = (url) => fetch(url).then((r) => r.json());
+import client from "../../utils/client";
 export function getUniversityDetails(universityId) {
   return useSWR(
-    "https://university-app.azurewebsites.net/mapi/v1/MobileUniversityPreference/GetUniversityPreference/" +
-      universityId,
-    fetcher
+    "/v1/MobileUniversityPreference/GetUniversityPreference/" + universityId,
+    (url) => {
+      return client.get(url).then((res) => res.data);
+    }
   );
 }

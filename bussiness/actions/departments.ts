@@ -1,8 +1,7 @@
 import useSWR from "swr";
-const fetcher = (url) => fetch(url).then((r) => r.json());
+import client from "../../utils/client";
 export function getAllDepartments() {
-  return useSWR(
-    "https://university-app.azurewebsites.net/mapi/v1/MobileDepartment/GetDepartments/1/10000",
-    fetcher
-  );
+  return useSWR("/v1/MobileDepartment/GetDepartments/1/1000", (url) => {
+    return client.get(url).then((res) => res.data);
+  });
 }
