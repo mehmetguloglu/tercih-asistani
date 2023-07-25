@@ -1,23 +1,64 @@
 import { Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { FlashList } from "@shopify/flash-list";
-import { Stack, Text } from "tamagui";
+import { Button, Stack, Text } from "tamagui";
 import PreferencesItem from "../../components/preferences-components/PreferencesItem";
+import {
+  addPreferenceList,
+  getPreferenceList,
+} from "../../bussiness/actions/preferences";
 const { width, height } = Dimensions.get("window");
+
+const PreferencesListItem = ({ item }) => {
+  return (
+    <Button
+      size={"$5"}
+      bw={1}
+      mx={15}
+      my={4}
+      onPress={() => {}}
+      shadowColor="#000"
+      shadowOffset={{
+        width: 0,
+        height: 2,
+      }}
+      shadowOpacity={0.23}
+      shadowRadius={2.62}
+      elevation={4}
+    >
+      <Text f={1} color={"black"} fontSize={16} fontWeight={"500"}>
+        {item.name}
+      </Text>
+    </Button>
+  );
+};
+
 const Preferences = () => {
-  const data = [{ id: 1, name: "test" }];
+  const { data, isLoading, mutate } = getPreferenceList();
+  const { trigger } = addPreferenceList();
+
+  useMemo(() => {
+    const checkFirstData = async () => {
+      if (data && data.length === 0 && !isLoading) {
+        await trigger({ name: "Tercih Listem" } as any);
+        mutate();
+      }
+    };
+    checkFirstData();
+  }, [data]);
+  console.log(data);
   return (
     <Stack height={height}>
-      <PreferencesItem />
+      {/* <PreferencesItem /> */}
 
-      {/* <FlashList
+      <FlashList
         estimatedItemSize={100}
         data={data}
-        renderItem={({ item }) => {
-          return <Text fontSize={16}>{item.name}</Text>;
+        renderItem={({ item }: { item: any }) => {
+          return <PreferencesListItem item={item} />;
         }}
         keyExtractor={(item) => item.id.toString()}
-      /> */}
+      />
     </Stack>
   );
 };

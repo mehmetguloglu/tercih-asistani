@@ -24,6 +24,7 @@ import { Stack, XStack } from "tamagui";
 import { getAllDepartments } from "../../bussiness/actions/departments";
 import { LoadingIndicator } from "../../components";
 import { Text } from "tamagui";
+import AdItem from "../../components/advertising-components/AdItem";
 const { height, width } = Dimensions.get("window");
 const Departments = () => {
   const { input } = useAppSelector((state) => state.departmentsReducer);
@@ -116,6 +117,8 @@ const Departments = () => {
 
         <View style={{ minHeight: 500 }}>
           <FlashList
+            ListHeaderComponent={() => <AdItem />}
+            ListFooterComponent={() => <AdItem />}
             contentContainerStyle={{ paddingBottom: height / 33 }}
             numColumns={
               Platform.isPad || width > 700 || Platform.OS == "macos" ? 2 : 1

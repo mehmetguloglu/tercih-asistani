@@ -11,6 +11,7 @@ import { setInput } from "../../../bussiness/reducers/departmentDetailsReducer";
 import { turkishToEnglish } from "../../../utils/text-helper";
 import { getDepartmentDetails } from "../../../bussiness/actions/departmentDetails";
 import { LoadingIndicator } from "../../../components";
+import AdDetailsItem from "../../../components/advertising-components/AdDetailsItem";
 
 const { width, height } = Dimensions.get("window");
 
@@ -153,6 +154,7 @@ const Detail = () => {
         </Pressable>
       </XStack>
       <FlashList
+        ListHeaderComponent={() => <AdDetailsItem />}
         ListEmptyComponent={() => {
           return isLoading ? (
             <LoadingIndicator />

@@ -12,9 +12,9 @@ import { useAppDispatch } from "../../bussiness/hooks";
 import { Stack, Text, Image, YStack } from "tamagui";
 import Ribbon from "../Ribbon";
 import UniversityLogo from "../UniversityLogo";
-import AdItem from "../advertising-components/AdItem";
-import { getAdvLocationCount } from "../../utils/device-helper";
-const { width } = Dimensions.get("window");
+// import AdItem from "../advertising-components/AdItem";
+// import { getAdvLocationCount } from "../../utils/device-helper";
+// const { width } = Dimensions.get("window");
 const UniversityItem = ({ item, index }) => {
   const route = useRouter();
   const dispatch = useAppDispatch();
@@ -22,16 +22,16 @@ const UniversityItem = ({ item, index }) => {
     route.push("/universities/details/" + item.name);
     dispatch(setSelectedUniversity(item));
   };
-  const advLocation = getAdvLocationCount();
+  // const advLocation = getAdvLocationCount();
 
   return (
     <YStack f={1}>
-      {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
+      {/* {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
         <AdItem />
       ) : (Platform.isPad || width > 700) &&
         (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
         <AdItem />
-      ) : null}
+      ) : null} */}
       <Pressable onPress={universityPress} style={[styles.universityItem]}>
         <UniversityLogo
           item={item}

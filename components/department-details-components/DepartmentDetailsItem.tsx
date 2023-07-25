@@ -2,25 +2,25 @@ import { Pressable, Platform, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import DetailsItemText from "../DetailsItemText";
-import { Text, XStack, YStack } from "tamagui";
+import { Button, Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
-import AdDetailsItem from "../advertising-components/AdDetailsItem";
-import { getAdvLocationCount } from "../../utils/device-helper";
-const { width } = Dimensions.get("window");
+import { getPreferenceList } from "../../bussiness/actions/preferences";
+// import AdDetailsItem from "../advertising-components/AdDetailsItem";
+// import { getAdvLocationCount } from "../../utils/device-helper";
+// const { width } = Dimensions.get("window");
 const DepartmentDetailsItem = ({ item, departmentName, index }) => {
   const [selected, setSelected] = useState(true);
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
-  const advLocation = getAdvLocationCount();
-
+  // const advLocation = getAdvLocationCount();
   return (
     <YStack f={1}>
-      {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
+      {/* {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
         <AdDetailsItem />
       ) : (Platform.isPad || width > 700) &&
         (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
         <AdDetailsItem />
-      ) : null}
+      ) : null} */}
 
       <XStack
         f={1}
@@ -51,7 +51,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
             ) : (
               <AntDesign name="minus" size={20} color="#0066FF" />
             )}
-            <YStack ml={9}>
+            <YStack ml={9} f={1}>
               <Text color={"black"} fontSize={14} fontWeight={"500"}>
                 {item.university.name}
               </Text>
@@ -61,6 +61,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                   : departmentName}
               </Text>
             </YStack>
+            <Button onPress={() => {}}>ekle </Button>
           </XStack>
           <Line ml={15} mr={3} />
 

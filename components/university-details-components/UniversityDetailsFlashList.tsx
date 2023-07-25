@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Platform, Dimensions } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import UniversityDetailsItem from "./UniversityDetailsItem";
 import LoadingIndicator from "../LoadingIndicator";
-import { isArguments } from "lodash";
 import { turkishToEnglish } from "../../utils/text-helper";
 import { useAppSelector } from "../../bussiness/hooks";
-import { Stack, Text } from "tamagui";
+import { Text } from "tamagui";
 import { getUniversityDetails } from "../../bussiness/actions/universityDetails";
+import AdItem from "../advertising-components/AdItem";
+import AdDetailsItem from "../advertising-components/AdDetailsItem";
 
 const { width, height } = Dimensions.get("window");
 const UniversityDetailsFlashList = () => {
@@ -65,6 +66,7 @@ const UniversityDetailsFlashList = () => {
   }
   return (
     <FlashList
+      ListHeaderComponent={() => <AdDetailsItem />}
       ListEmptyComponent={() => {
         return isLoading ? (
           <LoadingIndicator />

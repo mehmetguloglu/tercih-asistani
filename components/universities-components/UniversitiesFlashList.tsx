@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../bussiness/hooks";
 import { getAllUniversities } from "../../bussiness/actions/universities";
 import { Text } from "tamagui";
+import AdItem from "../advertising-components/AdItem";
 const { height, width } = Dimensions.get("window");
 
 const UniversitiesFlashList = ({
@@ -53,6 +54,8 @@ const UniversitiesFlashList = ({
   return (
     <>
       <FlashList
+        ListHeaderComponent={() => <AdItem />}
+        ListFooterComponent={() => <AdItem />}
         nestedScrollEnabled
         estimatedItemSize={76}
         showsVerticalScrollIndicator={false}
