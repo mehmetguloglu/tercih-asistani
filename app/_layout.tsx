@@ -6,15 +6,16 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { TamaguiProvider, Text, Theme, View } from "tamagui";
+import { Button, TamaguiProvider, Text, Theme, View } from "tamagui";
 import { Provider } from "react-redux";
 import { store } from "../bussiness/redux-store";
 import config from "../tamagui.config";
 import { PreferencesButton } from "../components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import client from "../utils/client";
+import OpenDrawerMenu from "../components/OpenDrawerMenu";
 
 export default function Layout() {
   const colorScheme = useColorScheme();
@@ -62,7 +63,7 @@ export default function Layout() {
                     headerTitle: "Tercih Asistanı",
                     headerTitleStyle: { fontSize: 24, fontWeight: "600" },
                     headerTitleAlign: "center",
-                    // headerRight: () => <PreferencesButton />,
+                    headerRight: () => <PreferencesButton />,
                   }}
                 />
                 <Stack.Screen

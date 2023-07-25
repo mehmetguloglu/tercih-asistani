@@ -1,14 +1,13 @@
 import React from "react";
 import { Stack } from "expo-router";
 import HeaderBack from "../../components/buttons/HeaderBack";
-import { PreferencesButton } from "../../components";
 
 const unstable_settings = {
   initialRouteName: "index",
 };
 const _layout = () => (
   <>
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={{ headerShown: false, gestureEnabled: true }}>
       <Stack.Screen
         name="index"
         options={{
@@ -16,6 +15,7 @@ const _layout = () => (
           headerTitle: "Üniversiteler",
           headerLeft: () => <HeaderBack />,
           headerTitleAlign: "center",
+
           // headerRight: () => <PreferencesButton />,
         }}
       />

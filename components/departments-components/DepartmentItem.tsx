@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { StyleSheet, Pressable, Dimensions, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { setSelectedDepartment } from "../../bussiness/reducers/departmentDetailsReducer";
 import { Stack, Text, YStack } from "tamagui";
 import Ribbon from "../Ribbon";
 import AdItem from "../advertising-components/AdItem";
-const { width, height } = Dimensions.get("window");
+import { getAdvLocationCount } from "../../utils/device-helper";
+const { width } = Dimensions.get("window");
 const DepartmentItem = ({ item, index }) => {
   const route = useRouter();
   const dispatch = useDispatch();
@@ -21,12 +16,14 @@ const DepartmentItem = ({ item, index }) => {
     route.push("/departments/details/" + item.name);
     dispatch(setSelectedDepartment(item));
   };
+  const advLocation = getAdvLocationCount();
+
   return (
     <YStack f={1}>
-      {index % 15 === 0 && !Platform.isPad && width < 700 ? (
+      {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
         <AdItem />
       ) : (Platform.isPad || width > 700) &&
-        (index % 30 == 0 || index % 30 == 1) ? (
+        (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
         <AdItem />
       ) : null}
       <Pressable

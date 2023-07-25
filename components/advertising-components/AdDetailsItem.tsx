@@ -15,10 +15,6 @@ if (Platform.OS === "ios" && !__DEV__) {
   unitId = "ca-app-pub-8545961952430100/7198276938";
 }
 
-// const unitAdId = Platform.OS==="ios"?"ca-app-pub-8545961952430100/7304990669":"ca-app-pub-8545961952430100/7198276938"
-
-// const unitId= __DEV__? TestIds.BANNER:unitAdId
-
 const AdDetailsItem = () => {
   return (
     <XStack f={1} bg={"white"} mx={15} my={8}>

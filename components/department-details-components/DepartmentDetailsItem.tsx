@@ -1,10 +1,4 @@
-import {
-  View,
-  Pressable,
-  StyleSheet,
-  Platform,
-  Dimensions,
-} from "react-native";
+import { Pressable, Platform, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import DetailsItemText from "../DetailsItemText";
@@ -12,16 +6,19 @@ import { Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
 import AdDetailsItem from "../advertising-components/AdDetailsItem";
-const { width, height } = Dimensions.get("window");
+import { getAdvLocationCount } from "../../utils/device-helper";
+const { width } = Dimensions.get("window");
 const DepartmentDetailsItem = ({ item, departmentName, index }) => {
   const [selected, setSelected] = useState(true);
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
+  const advLocation = getAdvLocationCount();
+
   return (
     <YStack f={1}>
-      {index % 15 === 0 && !Platform.isPad && width < 700 ? (
+      {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
         <AdDetailsItem />
       ) : (Platform.isPad || width > 700) &&
-        (index % 30 == 0 || index % 30 == 1) ? (
+        (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
         <AdDetailsItem />
       ) : null}
 

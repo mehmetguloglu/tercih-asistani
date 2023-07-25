@@ -1,8 +1,7 @@
 import React from "react";
 import { Stack } from "expo-router";
-import HeaderBack from "../../../components/buttons/HeaderBack";
 import { useAppSelector } from "../../../bussiness/hooks";
-import { PreferencesButton } from "../../../components";
+import HeaderBack from "../../../components/buttons/HeaderBack";
 
 const _layout = () => {
   const { selectedUniversity, input }: { selectedUniversity: any; input: any } =

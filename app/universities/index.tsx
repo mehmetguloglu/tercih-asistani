@@ -2,15 +2,16 @@ import { ScrollView, Pressable } from "react-native";
 import { Stack, XStack, Text } from "tamagui";
 import React, { useState } from "react";
 import _ from "lodash";
-import { SearchInput } from "../../components/inputs";
-import { UniversitiesFlashList } from "../../components/universities-components";
-import {
-  setSelectedCity,
-  setInput,
-} from "../../bussiness/reducers/universitiesReducer";
+
 import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../bussiness/hooks";
+import {
+  setInput,
+  setSelectedCity,
+} from "../../bussiness/reducers/universitiesReducer";
+import { SearchInput } from "../../components/inputs";
+import { UniversitiesFlashList } from "../../components/universities-components";
 
 const Universites = () => {
   const [governmentSelected, setGovernmentSelected] = useState(false);

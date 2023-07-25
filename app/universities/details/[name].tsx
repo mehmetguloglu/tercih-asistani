@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../bussiness/hooks";
 import { Stack, Text, Image, XStack } from "tamagui";
 import { useRouter } from "expo-router";
 import { StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 // import * as WebBrowser from "expo-web-browser";
-import { SearchInput } from "../../../components/inputs";
 import { Feather } from "@expo/vector-icons";
-import { setInput } from "../../../bussiness/reducers/universityDetailsReducer";
-import { UniversityDetailsFlashList } from "../../../components/university-details-components";
-import { setFilterPointType } from "../../../bussiness/reducers/universityDetailsReducer";
+import { useAppDispatch, useAppSelector } from "../../../bussiness/hooks";
 import UniversityLogo from "../../../components/UniversityLogo";
+import { SearchInput } from "../../../components/inputs";
+import {
+  setFilterPointType,
+  setInput,
+} from "../../../bussiness/reducers/universityDetailsReducer";
+import { UniversityDetailsFlashList } from "../../../components/university-details-components";
 
 const Detail = () => {
   const router = useRouter();

@@ -1,10 +1,4 @@
-import {
-  View,
-  Pressable,
-  StyleSheet,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { Pressable, Dimensions, Platform } from "react-native";
 import React, { useState } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { XStack, Text, YStack } from "tamagui";
@@ -12,6 +6,7 @@ import Line from "../Line";
 import DetailsItemText from "../DetailsItemText";
 import Ribbon from "../Ribbon";
 import AdDetailsItem from "../advertising-components/AdDetailsItem";
+import { getAdvLocationCount } from "../../utils/device-helper";
 const { width } = Dimensions.get("window");
 const UniversityDetailsItem = ({ item, index }) => {
   const [selected, setSelected] = useState(true);
@@ -37,13 +32,14 @@ const UniversityDetailsItem = ({ item, index }) => {
       typeColor = "#cc434a";
       break;
   }
+  const advLocation = getAdvLocationCount();
 
   return (
     <YStack f={1}>
-      {index % 15 === 0 && !Platform.isPad && width < 700 ? (
+      {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
         <AdDetailsItem />
       ) : (Platform.isPad || width > 700) &&
-        (index % 30 == 0 || index % 30 == 1) ? (
+        (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
         <AdDetailsItem />
       ) : null}
       <XStack

@@ -13,7 +13,7 @@ const App = () => {
           text={
             "Üniversiteler üzerinden araştırma yapmanızı sağlar. Devlet Üniversiteleri, Vakıf Üniversiteleri ve Yurtdışında Yerleşik Üniversitelerin hangileri olduğu ve Üniversitelerde hangi bölümlerin bulunduğunu, bölümlerin kontenjan bilgisi, puan türü, taban puanlarını ve başarı sıralamalarını üniversite bazlı inceleme yapmanızı sağlar."
           }
-          source={require("../assets/Frame3.png")}
+          source={require("../assets/universities.png")}
           onPress={() => {
             route.push("/universities");
           }}
@@ -24,7 +24,7 @@ const App = () => {
           text={
             "Bölümler üzerinden araştırma yapmanızı sağlar. Sayısal, Eşit Ağırlık, Sözel ve Dil Puan türlerine göre yerleştirme yapan bölümlerin hangileri olduğunu ve seçilen bölümlerin hangi Üniversitelerde bulunduğunu ve bölümlerin kontenjan bilgisi, puan türü, taban puanlarını ve başarı sıralamalarını bölüm bazlı inceleme yapmanızı sağlar."
           }
-          source={require("../assets/Frame5.png")}
+          source={require("../assets/departments.png")}
           onPress={() => {
             route.push("/departments");
           }}

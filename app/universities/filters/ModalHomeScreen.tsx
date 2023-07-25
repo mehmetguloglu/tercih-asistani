@@ -1,13 +1,13 @@
 import { ScrollView, Pressable, SafeAreaView } from "react-native";
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../bussiness/hooks";
 import { useRouter } from "expo-router";
 import { Input, Stack, Text, XStack, YStack } from "tamagui";
+import { useAppDispatch, useAppSelector } from "../../../bussiness/hooks";
+import { Line } from "../../../components";
 import {
-  setFilterRanking,
   setFilterPoints,
+  setFilterRanking,
 } from "../../../bussiness/reducers/universityDetailsReducer";
-import Line from "../../../components/Line";
 
 const ModalHomeScreen = () => {
   const dispatch = useAppDispatch();
