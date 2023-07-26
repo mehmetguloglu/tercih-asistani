@@ -5,7 +5,8 @@ import DetailsItemText from "../DetailsItemText";
 import { Button, Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
-import { getPreferenceList } from "../../bussiness/actions/preferences";
+import * as Haptics from "expo-haptics";
+
 // import AdDetailsItem from "../advertising-components/AdDetailsItem";
 // import { getAdvLocationCount } from "../../utils/device-helper";
 // const { width } = Dimensions.get("window");
@@ -61,7 +62,16 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                   : departmentName}
               </Text>
             </YStack>
-            <Button onPress={() => {}}>ekle </Button>
+            <Button
+              size={"$3"}
+              onPress={() => {
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Error
+                );
+              }}
+            >
+              ekle
+            </Button>
           </XStack>
           <Line ml={15} mr={3} />
 

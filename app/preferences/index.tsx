@@ -34,19 +34,18 @@ const PreferencesListItem = ({ item }) => {
 };
 
 const Preferences = () => {
-  const { data, isLoading, mutate } = getPreferenceList();
+  const { data, isLoading, mutate, error } = getPreferenceList();
   const { trigger } = addPreferenceList();
 
   useMemo(() => {
     const checkFirstData = async () => {
-      if (data && data.length === 0 && !isLoading) {
+      if (data && data.length === 0 && !isLoading && !error) {
         await trigger({ name: "Tercih Listem" } as any);
         mutate();
       }
     };
     checkFirstData();
-  }, [data]);
-  console.log(data);
+  }, [data, isLoading, error]);
   return (
     <Stack height={height}>
       {/* <PreferencesItem /> */}
