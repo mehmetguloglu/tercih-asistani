@@ -16,3 +16,21 @@ export function addPreferenceList() {
     }
   );
 }
+
+export function addPreferenceItem() {
+  return useSWRMutation(
+    "/v1/MobilePreferenceListItem/AddPreferenceItem",
+    (url, { arg }) => {
+      return client.post(url, arg).then((res) => res.data);
+    }
+  );
+}
+
+export function getPreferenceListItems(preferenceListId) {
+  return useSWR(
+    "/v1/MobilePreferenceListItem/GetPreferenceListItems/" + preferenceListId,
+    (url) => {
+      return client.get(url).then((res) => res.data);
+    }
+  );
+}

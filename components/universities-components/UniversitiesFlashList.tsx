@@ -55,7 +55,7 @@ const UniversitiesFlashList = ({
     <>
       <FlashList
         ListHeaderComponent={() => <AdItem />}
-        ListFooterComponent={() => <AdItem />}
+        // ListFooterComponent={() => <AdItem />}
         nestedScrollEnabled
         estimatedItemSize={76}
         showsVerticalScrollIndicator={false}

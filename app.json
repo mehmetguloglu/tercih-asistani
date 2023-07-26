@@ -10,7 +10,8 @@
             "buildToolsVersion": "31.0.0"
           },
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "deploymentTarget": "13.0"
           }
         }
       ]

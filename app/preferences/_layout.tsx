@@ -15,6 +15,12 @@ const _layout = () => {
           headerLeft: () => <HeaderBack />,
         }}
       />
+      <Stack.Screen
+        name="preferenceList"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

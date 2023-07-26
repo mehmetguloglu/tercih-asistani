@@ -6,14 +6,46 @@ import { Button, Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
 import * as Haptics from "expo-haptics";
+import AddPreferencesListItemModal from "../AddPreferencesListItemModal";
+import {
+  addPreferenceItem,
+  getPreferenceList,
+} from "../../bussiness/actions/preferences";
+import { Feather } from "@expo/vector-icons";
+import * as Burnt from "burnt";
 
 // import AdDetailsItem from "../advertising-components/AdDetailsItem";
 // import { getAdvLocationCount } from "../../utils/device-helper";
 // const { width } = Dimensions.get("window");
 const DepartmentDetailsItem = ({ item, departmentName, index }) => {
+  const { data, isLoading, mutate } = getPreferenceList();
   const [selected, setSelected] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
-  // const advLocation = getAdvLocationCount();
+  const { trigger } = addPreferenceItem();
+
+  const _handleAddPreferenceDirect = async () => {
+    const result = await trigger({
+      universityPreferenceId: item.id,
+      preferenceListId: data[0].id,
+    } as any);
+    if (result.isSuccessfull) {
+      Burnt.toast({
+        title: "Eklendi",
+        preset: "done",
+        duration: 2,
+        haptic: "success",
+      });
+    } else {
+      Burnt.toast({
+        title: result.message,
+        preset: "error",
+        duration: 2,
+        haptic: "error",
+      });
+    }
+  };
+
   return (
     <YStack f={1}>
       {/* {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
@@ -63,14 +95,22 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
               </Text>
             </YStack>
             <Button
-              size={"$3"}
+              aspectRatio={1}
+              p={0}
+              bw={0}
+              m={0}
+              br={30}
+              bg="white"
               onPress={() => {
-                Haptics.notificationAsync(
-                  Haptics.NotificationFeedbackType.Error
-                );
+                data?.length != 1
+                  ? setModalVisible(!modalVisible)
+                  : _handleAddPreferenceDirect();
+                // Haptics.notificationAsync(
+                //   Haptics.NotificationFeedbackType.Error
+                // );
               }}
             >
-              ekle
+              <Feather name="check-circle" size={24} color="green" />
             </Button>
           </XStack>
           <Line ml={15} mr={3} />
@@ -141,6 +181,11 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
           }
         />
       </XStack>
+      <AddPreferencesListItemModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        universityPreferenceId={item.id}
+      />
     </YStack>
   );
 };

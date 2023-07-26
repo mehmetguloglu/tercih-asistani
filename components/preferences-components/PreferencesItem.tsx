@@ -5,40 +5,10 @@ import { Text, XStack, YStack } from "tamagui";
 import DetailsItemText from "../DetailsItemText";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
-const PreferencesItem = () => {
+const PreferencesItem = ({ item }) => {
   const [selected, setSelected] = useState(true);
-  const item = {
-    basePoint: 237.77308,
-    departmentId: "64628a81bf5c2e21d455f695",
-    doctorNumber: 4,
-    educationTime: 4,
-    employment: false,
-    faculty: {
-      id: "64628a78bf5c2e21d455f2ca",
-      name: "İktisadi ve İdari Bilimler Fakültesi",
-    },
-    facultyId: "64628a78bf5c2e21d455f2ca",
-    firstGradeQuota: 2,
-    generalQuota: 80,
-    id: "6462a4c1707c18a64b48c51d",
-    kpss1: 67.569722,
-    kpss2: 63.69667,
-    pointType: "EA",
-    professorNumber: 6,
-    programCode: 104810398,
-    specialCondition: "4",
-    oldDepartmentName: "Aile ve Tüketici Bilimleri",
-    university: {
-      id: "64629381311a756d0c43aff6",
-      name: "Hacettepe Üniversitesi",
-      type: 2,
-      typeNumber: 2,
-    },
-    universityId: "64629381311a756d0c43aff6",
-    yksSuccessRanking: 471376,
-  };
+
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
-  const departmentName = "Aile ve Tüketici Bilimleri";
   return (
     <XStack
       bg={"white"}
@@ -66,7 +36,9 @@ const PreferencesItem = () => {
               {item.university.name}
             </Text>
             <Text fontSize={12} color={"#9594A4"} fontWeight={"500"}>
-              {item.oldDepartmentName ? item.oldDepartmentName : departmentName}
+              {item.oldDepartmentName
+                ? item.oldDepartmentName
+                : item.department.name}
             </Text>
           </YStack>
         </XStack>

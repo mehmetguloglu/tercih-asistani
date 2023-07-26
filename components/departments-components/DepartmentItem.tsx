@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Pressable, Dimensions, Platform } from "react-native";
 import { useRouter } from "expo-router";
-import { useDispatch } from "react-redux";
 import { setSelectedDepartment } from "../../bussiness/reducers/departmentDetailsReducer";
 import { Stack, Text, YStack } from "tamagui";
 import Ribbon from "../Ribbon";
+import { useAppDispatch } from "../../bussiness/hooks";
 // import AdItem from "../advertising-components/AdItem";
 // import { getAdvLocationCount } from "../../utils/device-helper";
 // const { width } = Dimensions.get("window");
 const DepartmentItem = ({ item, index }) => {
   const route = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [background, setBackground] = useState("white");
   const departmentPress = () => {
     route.push("/departments/details/" + item.name);

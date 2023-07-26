@@ -1,157 +1,186 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Dimensions, View } from "react-native";
 import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Pressable,
-  Dimensions,
-  View,
-} from "react-native";
-import {
+  addPreferenceItem,
   addPreferenceList,
   getPreferenceList,
 } from "../bussiness/actions/preferences";
-import {
-  Button,
-  Stack,
-  XStack,
-  Text,
-  Paragraph,
-  SizableText,
-  Separator,
-  YStack,
-  Input,
-} from "tamagui";
+import { Button, Stack, XStack, Text, YStack, Input } from "tamagui";
 import { FlashList } from "@shopify/flash-list";
 import Line from "./Line";
+import Modal from "react-native-modal";
+
+import * as Burnt from "burnt";
+
 const { width, height } = Dimensions.get("window");
-const App = () => {
+const AddPreferencesListItemModal = ({
+  modalVisible,
+  setModalVisible,
+  universityPreferenceId,
+}) => {
   const [preferenceInput, setPreferenceInput] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
   const [showInput, setShowInput] = useState(false);
   const { data, isLoading, mutate } = getPreferenceList();
   const { trigger } = addPreferenceList();
+  const { trigger: addPreferenceItemTrigger } = addPreferenceItem();
 
   const _handleAddPreferenceList = async () => {
-    await trigger({ name: preferenceInput } as any);
-    mutate();
-    setShowInput(false);
-    setPreferenceInput("");
+    const result = await trigger({ name: preferenceInput } as any);
+    if (result.isSuccessfull) {
+      Burnt.toast({
+        title: "Eklendi",
+        preset: "done",
+        duration: 2,
+        haptic: "success",
+      });
+      mutate();
+      setShowInput(false);
+      setPreferenceInput("");
+    } else {
+      Burnt.toast({
+        title: "Kayıt başarısız oldu",
+        preset: "error",
+        duration: 2,
+        haptic: "error",
+      });
+    }
+  };
+
+  const _handleAddPreferenceItem = async (preferenceListId) => {
+    const result = await addPreferenceItemTrigger({
+      universityPreferenceId: universityPreferenceId,
+      preferenceListId: preferenceListId,
+    } as any);
+    if (result.isSuccessfull) {
+      Burnt.toast({
+        title: "Eklendi",
+        preset: "done",
+        duration: 2,
+        haptic: "success",
+      });
+    } else {
+      Burnt.toast({
+        title: result.message,
+        preset: "error",
+        duration: 2,
+        haptic: "error",
+      });
+    }
   };
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={true}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <YStack
-            borderStyle={"solid"}
-            backgroundColor="white"
-            margin={20}
-            borderRadius={20}
-            padding={20}
-            alignItems="center"
-            borderWidth={1}
-          >
-            <Text fontWeight={"$10"} fontSize={16} mb={10}>
-              Tercih Listeme Kaydet
-            </Text>
+    // <View style={styles.centeredView}>
+    <Modal
+      isVisible={modalVisible}
+      onBackdropPress={() => setModalVisible(!modalVisible)}
+      hasBackdrop={true}
+    >
+      <View style={styles.centeredView}>
+        <YStack
+          borderStyle={"solid"}
+          backgroundColor="white"
+          margin={20}
+          //   borderRadius={20}
+          //   padding={20}
+          alignItems="center"
+        >
+          <Text fontWeight={"$10"} fontSize={16} mb={10}>
+            Tercih Listeme Kaydet
+          </Text>
 
-            <Stack width={width * 0.8} height={height * 0.5} maxHeight={350}>
-              <FlashList
-                estimatedItemSize={100}
-                data={data}
-                renderItem={({ item }: { item: any }) => {
-                  return (
-                    <>
-                      <Line height={1} my={4} />
-                      <Button size={"$3.5"}>
-                        <Text fontSize={14}>{item.name}</Text>
-                      </Button>
-                    </>
-                  );
-                }}
-                keyExtractor={(item) => item.id.toString()}
-              />
-            </Stack>
-            <YStack width={width * 0.8}>
-              {showInput ? (
-                <XStack mb={10}>
-                  <Input
-                    f={1}
-                    mr={5}
-                    placeholder="Liste Adı Giriniz"
-                    value={preferenceInput}
-                    onChangeText={(e) => setPreferenceInput(e)}
-                  />
-                  <Button onPress={() => _handleAddPreferenceList()}>
-                    ekle
-                  </Button>
-                </XStack>
-              ) : null}
-              <XStack>
-                <Button
+          <Stack width={width * 0.8} height={height * 0.5} maxHeight={350}>
+            {showInput ? (
+              <XStack mb={10}>
+                <Input
+                  size={"$3.5"}
+                  f={1}
                   mr={5}
-                  f={1}
-                  size={"$3.5"}
-                  bg={"white"}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text>İptal</Text>
-                </Button>
+                  placeholder="Liste Adı Giriniz"
+                  value={preferenceInput}
+                  onChangeText={(e) => setPreferenceInput(e)}
+                />
                 <Button
-                  bw={0}
-                  ml={5}
-                  bg={"#1a73e8"}
-                  f={1}
+                  onPress={() =>
+                    data.find((item) => item.name == preferenceInput)
+                      ? Burnt.toast({
+                          title: "Bu isimde bir liste zaten var",
+                          preset: "error",
+                          duration: 2,
+                          haptic: "error",
+                        })
+                      : preferenceInput != ""
+                      ? _handleAddPreferenceList()
+                      : setShowInput(!showInput)
+                  }
+                  m={0}
                   size={"$3.5"}
-                  onPress={() => setShowInput(!showInput)}
                 >
-                  <Text color={"white"}> Yeni Liste Oluştur</Text>
+                  Ekle
                 </Button>
               </XStack>
-            </YStack>
+            ) : null}
+            <FlashList
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 10 }}
+              estimatedItemSize={100}
+              data={data}
+              renderItem={({ item }: { item: any }) => {
+                return (
+                  <>
+                    <Line height={1} my={4} />
+                    <Button
+                      onPress={() => {
+                        _handleAddPreferenceItem(item.id);
+                        setModalVisible(!modalVisible);
+                        setShowInput(false);
+                      }}
+                      size={"$3.5"}
+                    >
+                      <Text fontSize={14}>{item.name}</Text>
+                    </Button>
+                  </>
+                );
+              }}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          </Stack>
+          <YStack mt={10} width={width * 0.8}>
+            <XStack>
+              <Button
+                mr={5}
+                f={1}
+                size={"$3.5"}
+                bg={"white"}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text>İptal</Text>
+              </Button>
+              <Button
+                bw={0}
+                ml={5}
+                bg={"#1a73e8"}
+                f={1}
+                size={"$3.5"}
+                onPress={() => setShowInput(!showInput)}
+              >
+                <Text color={"white"}> Yeni Liste Oluştur</Text>
+              </Button>
+            </XStack>
           </YStack>
-        </View>
-      </Modal>
-      <Pressable onPress={() => setModalVisible(true)}>
-        <Text>Ekle</Text>
-      </Pressable>
-    </View>
+        </YStack>
+      </View>
+    </Modal>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+    borderRadius: 20,
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
 });
 
-export default App;
+export default AddPreferencesListItemModal;
