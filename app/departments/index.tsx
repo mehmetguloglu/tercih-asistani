@@ -118,7 +118,7 @@ const Departments = () => {
         <View style={{ minHeight: 500 }}>
           <FlashList
             ListHeaderComponent={() => <AdItem />}
-            ListFooterComponent={() => <AdItem />}
+            // ListFooterComponent={() => <AdItem />}
             contentContainerStyle={{ paddingBottom: height / 33 }}
             numColumns={
               Platform.isPad || width > 700 || Platform.OS == "macos" ? 2 : 1
