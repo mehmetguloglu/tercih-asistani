@@ -83,7 +83,7 @@ const AddPreferencesListItemModal = ({
           //   padding={20}
           alignItems="center"
         >
-          <Text fontWeight={"$10"} fontSize={16} mb={10}>
+          <Text fontWeight={"600"} fontSize={17} mb={10}>
             Tercih Listeme Kaydet
           </Text>
 
@@ -94,6 +94,7 @@ const AddPreferencesListItemModal = ({
                   size={"$3.5"}
                   f={1}
                   mr={5}
+                  borderColor={"#1a73e8"}
                   placeholder="Liste Adı Giriniz"
                   value={preferenceInput}
                   onChangeText={(e) => setPreferenceInput(e)}
@@ -113,8 +114,11 @@ const AddPreferencesListItemModal = ({
                   }
                   m={0}
                   size={"$3.5"}
+                  bg={"#1a73e8"}
                 >
-                  Ekle
+                  <Text fow={"600"} color={"white"}>
+                    Ekle
+                  </Text>
                 </Button>
               </XStack>
             ) : null}
@@ -150,9 +154,12 @@ const AddPreferencesListItemModal = ({
                 f={1}
                 size={"$3.5"}
                 bg={"white"}
+                borderColor={"#1a73e8"}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text>İptal</Text>
+                <Text color={"#1a73e8"} fow={"600"}>
+                  İptal
+                </Text>
               </Button>
               <Button
                 bw={0}
