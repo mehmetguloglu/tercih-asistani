@@ -34,3 +34,21 @@ export function getPreferenceListItems(preferenceListId) {
     }
   );
 }
+
+export function deletePreferenceList() {
+  return useSWRMutation(
+    "/v1/MobilePreferenceList/DeletePreferenceList/",
+    (url, { arg }) => {
+      return client.get(url + arg).then((res) => res.data);
+    }
+  );
+}
+
+export function deletePreferenceItem() {
+  return useSWRMutation(
+    "/v1/MobilePreferenceListItem/DeletePreferenceItem/",
+    (url, { arg }) => {
+      return client.get(url + arg).then((res) => res.data);
+    }
+  );
+}

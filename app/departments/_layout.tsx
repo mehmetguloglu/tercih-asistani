@@ -16,7 +16,7 @@ const _layout = () => (
           headerTitle: "Bölümler",
           headerLeft: () => <HeaderBack />,
           headerTitleAlign: "center",
-          // headerRight: () => <PreferencesButton />,
+          headerRight: () => <PreferencesButton />,
         }}
       />
       <Stack.Screen name="details" options={{ headerShown: false }} />

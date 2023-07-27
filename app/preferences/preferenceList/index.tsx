@@ -5,6 +5,7 @@ import { getPreferenceListItems } from "../../../bussiness/actions/preferences";
 import { FlashList } from "@shopify/flash-list";
 import PreferencesItem from "../../../components/preferences-components/PreferencesItem";
 import HeaderBack from "../../../components/buttons/HeaderBack";
+import { LoadingIndicator } from "../../../components";
 
 const PreferenceList = () => {
   const { id, name } = useLocalSearchParams();
@@ -19,6 +20,7 @@ const PreferenceList = () => {
           headerLeft: () => <HeaderBack />,
         }}
       />
+      {isLoading ? <LoadingIndicator /> : null}
       <FlashList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10 }}
@@ -26,7 +28,7 @@ const PreferenceList = () => {
         data={data}
         keyExtractor={(item: any) => item.id.toString()}
         renderItem={({ item }: { item: any }) => (
-          <PreferencesItem item={item.universityPreference} />
+          <PreferencesItem preferenceItem={item} />
         )}
       />
     </>

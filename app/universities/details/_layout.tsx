@@ -2,6 +2,7 @@ import React from "react";
 import { Stack } from "expo-router";
 import { useAppSelector } from "../../../bussiness/hooks";
 import HeaderBack from "../../../components/buttons/HeaderBack";
+import { PreferencesButton } from "../../../components";
 
 const _layout = () => {
   const { selectedUniversity, input }: { selectedUniversity: any; input: any } =
@@ -17,7 +18,7 @@ const _layout = () => {
             headerBackTitleVisible: false,
             headerLeft: () => <HeaderBack />,
             headerTitleAlign: "center",
-            // headerRight: () => <PreferencesButton />,
+            headerRight: () => <PreferencesButton />,
           }}
         />
       </Stack>

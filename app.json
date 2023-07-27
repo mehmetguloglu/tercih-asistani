@@ -19,7 +19,7 @@
     "name": "Tercih Asistanı",
     "slug": "tercih-asistani",
     "scheme": "tercih-asistani",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/tercih-asistani-icon.png",
     "userInterfaceStyle": "light",
@@ -35,12 +35,12 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.4.0",
+      "buildNumber": "1.5.0",
       "bundleIdentifier": "com.tercih-asistani.app",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 6,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-8545961952430100~8304578693"
       },

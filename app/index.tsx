@@ -2,7 +2,6 @@ import React from "react";
 import { Stack, YStack } from "tamagui";
 import { useRouter } from "expo-router";
 import HomeButtons from "../components/home-components/HomeButtons";
-import AddPreferencesListItemModal from "../components/AddPreferencesListItemModal";
 
 const App = () => {
   const route = useRouter();
@@ -30,7 +29,6 @@ const App = () => {
             route.push("/departments");
           }}
         />
-        <AddPreferencesListItemModal />
       </YStack>
     </Stack>
   );

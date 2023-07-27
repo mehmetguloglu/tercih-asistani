@@ -1,6 +1,6 @@
 import { Pressable, Platform, Dimensions } from "react-native";
 import React, { useState } from "react";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 import DetailsItemText from "../DetailsItemText";
 import { Button, Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
@@ -11,7 +11,6 @@ import {
   addPreferenceItem,
   getPreferenceList,
 } from "../../bussiness/actions/preferences";
-import { Feather } from "@expo/vector-icons";
 import * as Burnt from "burnt";
 
 // import AdDetailsItem from "../advertising-components/AdDetailsItem";
@@ -22,7 +21,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
   const [selected, setSelected] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
-  const { trigger } = addPreferenceItem();
+  const { trigger, isMutating } = addPreferenceItem();
 
   const _handleAddPreferenceDirect = async () => {
     const result = await trigger({
@@ -95,10 +94,12 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
               </Text>
             </YStack>
             <Button
+              disabled={isMutating}
               aspectRatio={1}
               p={0}
               bw={0}
               m={0}
+              mr={-10}
               br={30}
               bg="white"
               onPress={() => {
@@ -110,7 +111,11 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                 // );
               }}
             >
-              <Feather name="check-circle" size={24} color="green" />
+              <Feather
+                name="check-circle"
+                size={24}
+                color={isMutating ? "gray" : "green"}
+              />
             </Button>
           </XStack>
           <Line ml={15} mr={3} />
@@ -134,7 +139,9 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                       ? "Eşit Ağırlık"
                       : item.pointType == "SÖZ"
                       ? "Sözel"
-                      : "Dil"
+                      : item.pointType == "DİL"
+                      ? "Dil"
+                      : "TYT"
                   }
                   detailsName={"Puan Türü"}
                 />

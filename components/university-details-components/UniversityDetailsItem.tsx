@@ -1,19 +1,53 @@
 import { Pressable, Dimensions, Platform } from "react-native";
 import React, { useState } from "react";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
-import { XStack, Text, YStack } from "tamagui";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+
+import { XStack, Text, YStack, Button } from "tamagui";
 import Line from "../Line";
 import DetailsItemText from "../DetailsItemText";
 import Ribbon from "../Ribbon";
+import {
+  addPreferenceItem,
+  getPreferenceList,
+} from "../../bussiness/actions/preferences";
+import * as Burnt from "burnt";
+import AddPreferencesListItemModal from "../AddPreferencesListItemModal";
+
 // import AdDetailsItem from "../advertising-components/AdDetailsItem";
 // import { getAdvLocationCount } from "../../utils/device-helper";
 // const { width } = Dimensions.get("window");
-const UniversityDetailsItem = ({ item, index }) => {
+const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
   const [selected, setSelected] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const { data, isLoading, mutate } = getPreferenceList();
+  const { trigger } = addPreferenceItem();
+
+  const _handleAddPreferenceDirect = async () => {
+    const result = await trigger({
+      universityPreferenceId: item.id,
+      preferenceListId: data[0].id,
+    } as any);
+    if (result.isSuccessfull) {
+      Burnt.toast({
+        title: "Eklendi",
+        preset: "done",
+        duration: 2,
+        haptic: "success",
+      });
+    } else {
+      Burnt.toast({
+        title: result.message,
+        preset: "error",
+        duration: 2,
+        haptic: "error",
+      });
+    }
+  };
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
 
   let pointType = "";
-  let typeColor = "white";
+  let typeColor = "";
   switch (item.pointType) {
     case "EA":
       pointType = "Eşit Ağırlık";
@@ -30,6 +64,10 @@ const UniversityDetailsItem = ({ item, index }) => {
     case "SÖZ":
       pointType = "Sözel";
       typeColor = "#cc434a";
+      break;
+    default:
+      pointType = "TYT";
+      typeColor = "gray";
       break;
   }
   // const advLocation = getAdvLocationCount();
@@ -63,11 +101,30 @@ const UniversityDetailsItem = ({ item, index }) => {
             ) : (
               <AntDesign name="minus" size={20} color="#0066FF" />
             )}
-            <Text color={"black"} ml={9} fontSize={14} fontWeight={"500"}>
+            <Text f={1} color={"black"} ml={9} fontSize={14} fontWeight={"500"}>
               {item.oldDepartmentName
                 ? item.oldDepartmentName
                 : item.department.name}
             </Text>
+            <Button
+              aspectRatio={1}
+              p={0}
+              bw={0}
+              m={0}
+              mr={-10}
+              br={30}
+              bg="white"
+              onPress={() => {
+                data?.length != 1
+                  ? setModalVisible(!modalVisible)
+                  : _handleAddPreferenceDirect();
+                // Haptics.notificationAsync(
+                //   Haptics.NotificationFeedbackType.Error
+                // );
+              }}
+            >
+              <Feather name="check-circle" size={24} color="green" />
+            </Button>
           </XStack>
 
           <Line ml={15} mr={3} />
@@ -105,34 +162,51 @@ const UniversityDetailsItem = ({ item, index }) => {
         </Pressable>
         <Ribbon
           bg={
-            item.pointType == "EA"
+            changeDepartment == 2
+              ? null
+              : item.pointType == "EA"
               ? "#3268bf"
               : item.pointType == "DİL"
               ? "#eda547"
               : item.pointType == "SÖZ"
               ? "#cc434a"
-              : "green"
+              : item.pointType == "SAY"
+              ? "green"
+              : null
           }
           bgb={
-            item.pointType == "EA"
+            changeDepartment == 2
+              ? null
+              : item.pointType == "EA"
               ? "#174082"
               : item.pointType == "DİL"
               ? "#b37019"
               : item.pointType == "SÖZ"
               ? "#96171d"
-              : "darkgreen"
+              : item.pointType == "SAY"
+              ? "darkgreen"
+              : null
           }
           text={
-            item.pointType == "EA"
+            changeDepartment == 2
+              ? "TYT"
+              : item.pointType == "EA"
               ? "Eşit Ağırlık"
               : item.pointType == "DİL"
               ? "Dil"
               : item.pointType == "SÖZ"
               ? "Sözel"
-              : "Sayısal"
+              : item.pointType == "SAY"
+              ? "Sayısal"
+              : ""
           }
         />
       </XStack>
+      <AddPreferencesListItemModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+        universityPreferenceId={item.id}
+      />
     </YStack>
   );
 };

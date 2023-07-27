@@ -11,7 +11,7 @@ import AdItem from "../advertising-components/AdItem";
 import AdDetailsItem from "../advertising-components/AdDetailsItem";
 
 const { width, height } = Dimensions.get("window");
-const UniversityDetailsFlashList = () => {
+const UniversityDetailsFlashList = ({ changeDepartment }) => {
   const {
     selectedUniversity,
     filterPointType,
@@ -26,7 +26,10 @@ const UniversityDetailsFlashList = () => {
     input: any;
   } = useAppSelector((state) => state.universityDetailsReducer);
 
-  const { data, isLoading } = getUniversityDetails(selectedUniversity.id);
+  const { data, isLoading } = getUniversityDetails(
+    selectedUniversity.id,
+    changeDepartment == 1
+  );
   let filterData = data;
 
   if (input != "") {
@@ -34,19 +37,23 @@ const UniversityDetailsFlashList = () => {
       turkishToEnglish(item.department.name).includes(turkishToEnglish(input))
     );
   }
-  if (
-    filterPointType[0] == "say" ||
-    filterPointType[1] == "ea" ||
-    filterPointType[2] == "soz" ||
-    filterPointType[3] == "dil"
-  ) {
-    filterData = filterData.filter(
-      (item) =>
-        (filterPointType.find((x) => x == "say") && item.pointType == "SAY") ||
-        (filterPointType.find((x) => x == "ea") && item.pointType == "EA") ||
-        (filterPointType.find((x) => x == "soz") && item.pointType == "SÖZ") ||
-        (filterPointType.find((x) => x == "dil") && item.pointType == "DİL")
-    );
+  if (changeDepartment == 1) {
+    if (
+      filterPointType[0] == "say" ||
+      filterPointType[1] == "ea" ||
+      filterPointType[2] == "soz" ||
+      filterPointType[3] == "dil"
+    ) {
+      filterData = filterData.filter(
+        (item) =>
+          (filterPointType.find((x) => x == "say") &&
+            item.pointType == "SAY") ||
+          (filterPointType.find((x) => x == "ea") && item.pointType == "EA") ||
+          (filterPointType.find((x) => x == "soz") &&
+            item.pointType == "SÖZ") ||
+          (filterPointType.find((x) => x == "dil") && item.pointType == "DİL")
+      );
+    }
   }
   if (filterPoints[0] != 0 || filterPoints[1] != 500) {
     filterData = filterData.filter(
@@ -70,7 +77,7 @@ const UniversityDetailsFlashList = () => {
       ListEmptyComponent={() => {
         return isLoading ? (
           <LoadingIndicator />
-        ) : filterData.length === 0 ? (
+        ) : filterData?.length === 0 ? (
           <Text m={15}>Sonuç bulunamadı</Text>
         ) : null;
       }}
@@ -86,7 +93,13 @@ const UniversityDetailsFlashList = () => {
       keyExtractor={(item: any) => item.id}
       data={filterData}
       renderItem={({ item, index }) => {
-        return <UniversityDetailsItem item={item} index={index} />;
+        return (
+          <UniversityDetailsItem
+            item={item}
+            index={index}
+            changeDepartment={changeDepartment}
+          />
+        );
       }}
     />
   );

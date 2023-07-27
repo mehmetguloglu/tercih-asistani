@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stack, Text, Image, XStack } from "tamagui";
+import { Stack, Text, Image, XStack, ZStack, Button } from "tamagui";
 import { useRouter } from "expo-router";
 import { StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 // import * as WebBrowser from "expo-web-browser";
@@ -11,9 +11,11 @@ import {
   setFilterPointType,
   setInput,
 } from "../../../bussiness/reducers/universityDetailsReducer";
+import { MaterialIcons } from "@expo/vector-icons";
 import { UniversityDetailsFlashList } from "../../../components/university-details-components";
 
 const Detail = () => {
+  const [changeDepartment, setChangeDepartment] = useState(1);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -27,6 +29,48 @@ const Detail = () => {
 
   return (
     <Stack f={1}>
+      <ZStack
+        position="absolute"
+        width={80}
+        height={80}
+        bottom={20}
+        left={10}
+        zIndex={1}
+      >
+        <Button
+          shadowColor="#000"
+          shadowOffset={{
+            width: 0,
+            height: 12,
+          }}
+          shadowOpacity={0.58}
+          shadowRadius={16.0}
+          elevation={24}
+          br={50}
+          bg={changeDepartment === 1 ? "#D1ECFF" : "#FFF5D1"}
+          f={1}
+          p={0}
+          ai="center"
+          jc="center"
+          fd="column"
+          bw={0}
+          onPress={() => {
+            changeDepartment === 1
+              ? setChangeDepartment(2)
+              : setChangeDepartment(1);
+          }}
+        >
+          {/* <FontAwesome5 name="exchange-alt" size={13} color="black" /> */}
+          <MaterialIcons
+            name="published-with-changes"
+            size={24}
+            color="black"
+          />
+          <Text textAlign="center" fontSize={13} fontWeight={"600"}>
+            {changeDepartment === 1 ? "Lisans" : "Önlisans"}
+          </Text>
+        </Button>
+      </ZStack>
       <ScrollView nestedScrollEnabled={true} style={styles.container}>
         <Stack jc="center" ai="center" px={15} pt={12}>
           <Stack
@@ -70,109 +114,111 @@ const Detail = () => {
               <Feather name="filter" size={24} color="#777777" />
             </Pressable>
           </XStack>
-          <XStack mt={8} mb={4}>
-            <Pressable
-              style={[
-                styles.departmentTypeButton,
-                {
-                  backgroundColor:
-                    filterPointType[0] == "say" ? "green" : "white",
-                },
-              ]}
-              onPress={() =>
-                dispatch(
-                  setFilterPointType([
-                    filterPointType[0] == "say" ? "" : "say",
-                    filterPointType[1],
-                    filterPointType[2],
-                    filterPointType[3],
-                  ])
-                )
-              }
-            >
-              <Text color={filterPointType[0] == "say" ? "white" : "black"}>
-                Sayısal
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[
-                styles.departmentTypeButton,
-                {
-                  backgroundColor:
-                    filterPointType[1] == "ea" ? "#3268bf" : "white",
-                  marginLeft: 8,
-                  marginRight: 4,
-                },
-              ]}
-              onPress={() =>
-                dispatch(
-                  setFilterPointType([
-                    filterPointType[0],
-                    filterPointType[1] == "ea" ? "" : "ea",
-                    filterPointType[2],
-                    filterPointType[3],
-                  ])
-                )
-              }
-            >
-              <Text color={filterPointType[1] == "ea" ? "white" : "black"}>
-                Eşit Ağırlık
-              </Text>
-            </Pressable>
-            <Pressable
-              style={[
-                styles.departmentTypeButton,
-                {
-                  backgroundColor:
-                    filterPointType[2] == "soz" ? "#cc434a" : "white",
-                  marginRight: 8,
-                  marginLeft: 4,
-                },
-              ]}
-              onPress={() =>
-                dispatch(
-                  setFilterPointType([
-                    filterPointType[0],
-                    filterPointType[1],
-                    filterPointType[2] == "soz" ? "" : "soz",
-                    filterPointType[3],
-                  ])
-                )
-              }
-            >
-              <Text color={filterPointType[2] == "soz" ? "white" : "black"}>
-                Sözel
-              </Text>
-            </Pressable>
+          {changeDepartment === 1 ? (
+            <XStack mt={8} mb={4}>
+              <Pressable
+                style={[
+                  styles.departmentTypeButton,
+                  {
+                    backgroundColor:
+                      filterPointType[0] == "say" ? "green" : "white",
+                  },
+                ]}
+                onPress={() =>
+                  dispatch(
+                    setFilterPointType([
+                      filterPointType[0] == "say" ? "" : "say",
+                      filterPointType[1],
+                      filterPointType[2],
+                      filterPointType[3],
+                    ])
+                  )
+                }
+              >
+                <Text color={filterPointType[0] == "say" ? "white" : "black"}>
+                  Sayısal
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.departmentTypeButton,
+                  {
+                    backgroundColor:
+                      filterPointType[1] == "ea" ? "#3268bf" : "white",
+                    marginLeft: 8,
+                    marginRight: 4,
+                  },
+                ]}
+                onPress={() =>
+                  dispatch(
+                    setFilterPointType([
+                      filterPointType[0],
+                      filterPointType[1] == "ea" ? "" : "ea",
+                      filterPointType[2],
+                      filterPointType[3],
+                    ])
+                  )
+                }
+              >
+                <Text color={filterPointType[1] == "ea" ? "white" : "black"}>
+                  Eşit Ağırlık
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.departmentTypeButton,
+                  {
+                    backgroundColor:
+                      filterPointType[2] == "soz" ? "#cc434a" : "white",
+                    marginRight: 8,
+                    marginLeft: 4,
+                  },
+                ]}
+                onPress={() =>
+                  dispatch(
+                    setFilterPointType([
+                      filterPointType[0],
+                      filterPointType[1],
+                      filterPointType[2] == "soz" ? "" : "soz",
+                      filterPointType[3],
+                    ])
+                  )
+                }
+              >
+                <Text color={filterPointType[2] == "soz" ? "white" : "black"}>
+                  Sözel
+                </Text>
+              </Pressable>
 
-            <Pressable
-              style={[
-                styles.departmentTypeButton,
+              <Pressable
+                style={[
+                  styles.departmentTypeButton,
 
-                {
-                  backgroundColor:
-                    filterPointType[3] == "dil" ? "#eda547" : "white",
-                },
-              ]}
-              onPress={() =>
-                dispatch(
-                  setFilterPointType([
-                    filterPointType[0],
-                    filterPointType[1],
-                    filterPointType[2],
-                    filterPointType[3] == "dil" ? "" : "dil",
-                  ])
-                )
-              }
-            >
-              <Text color={filterPointType[3] == "dil" ? "white" : "black"}>
-                Dil
-              </Text>
-            </Pressable>
-          </XStack>
+                  {
+                    backgroundColor:
+                      filterPointType[3] == "dil" ? "#eda547" : "white",
+                  },
+                ]}
+                onPress={() =>
+                  dispatch(
+                    setFilterPointType([
+                      filterPointType[0],
+                      filterPointType[1],
+                      filterPointType[2],
+                      filterPointType[3] == "dil" ? "" : "dil",
+                    ])
+                  )
+                }
+              >
+                <Text color={filterPointType[3] == "dil" ? "white" : "black"}>
+                  Dil
+                </Text>
+              </Pressable>
+            </XStack>
+          ) : null}
         </Stack>
 
-        <UniversityDetailsFlashList />
+        <UniversityDetailsFlashList changeDepartment={changeDepartment} />
       </ScrollView>
     </Stack>
   );

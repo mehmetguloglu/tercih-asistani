@@ -13,18 +13,7 @@ const _layout = () => {
   } = useAppSelector((state) => state.departmentDetailsReducer);
   return (
     <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="[name]"
-          options={{
-            headerShown: true,
-            title: selectedDepartment.name,
-            headerLeft: () => <HeaderBack />,
-            headerTitleAlign: "center",
-            // headerRight: () => <PreferencesButton />,
-          }}
-        />
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
     </>
   );
 };

@@ -1,10 +1,19 @@
 import { Dimensions, Pressable, SafeAreaView } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
-import { Button, Input, Stack, Text, XStack } from "tamagui";
+import {
+  AlertDialog,
+  Button,
+  Input,
+  Stack,
+  Text,
+  XStack,
+  YStack,
+} from "tamagui";
 import PreferencesItem from "../../components/preferences-components/PreferencesItem";
 import {
   addPreferenceList,
+  deletePreferenceList,
   getPreferenceList,
 } from "../../bussiness/actions/preferences";
 import { Link, useRouter } from "expo-router";
@@ -15,13 +24,32 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SearchInput } from "../../components/inputs";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { LoadingIndicator } from "../../components";
 const { width, height } = Dimensions.get("window");
 
 const PreferencesListItem = ({ item }) => {
-  const dispatch = useAppDispatch();
+  const { data, isLoading, mutate, error } = getPreferenceList();
+  const { trigger: deleteTrigger } = deletePreferenceList();
 
-  const router = useRouter();
-
+  const _handleDeletePreferenceList = async () => {
+    const result = await deleteTrigger(item.id);
+    if (result.isSuccessfull) {
+      Burnt.toast({
+        title: "Silindi",
+        preset: "done",
+        duration: 2,
+        haptic: "success",
+      });
+      mutate();
+    } else {
+      Burnt.toast({
+        title: "Silme başarısız oldu",
+        preset: "error",
+        duration: 2,
+        haptic: "error",
+      });
+    }
+  };
   return (
     <Link
       href={{
@@ -37,10 +65,6 @@ const PreferencesListItem = ({ item }) => {
         my={4}
         p={0}
         bg={"white"}
-        // onPress={() => {
-        //   router.push("/preferences/preferenceList/" + item.id + "/" + item.name);
-        //   // dispatch(setSelectedPreferencesListId(item.id));
-        // }}
         shadowColor="#000"
         shadowOffset={{
           width: 0,
@@ -53,9 +77,60 @@ const PreferencesListItem = ({ item }) => {
         <Text mx={15} f={1} color={"black"} fontSize={16} fontWeight={"500"}>
           {item.name}
         </Text>
-        <Button borderWidth={0} bg={"white"} size={"$3"}>
-          <MaterialIcons name="delete" size={24} color="darkred" />
-        </Button>
+        <AlertDialog native>
+          <AlertDialog.Trigger asChild>
+            <Button borderWidth={0} bg={"white"} size={"$3"}>
+              <MaterialIcons name="delete" size={24} color="darkred" />
+            </Button>
+          </AlertDialog.Trigger>
+
+          <AlertDialog.Portal>
+            <AlertDialog.Overlay
+              key="overlay"
+              animation="quick"
+              opacity={0.5}
+              enterStyle={{ opacity: 0 }}
+              exitStyle={{ opacity: 0 }}
+            />
+            <AlertDialog.Content
+              bordered
+              elevate
+              key="content"
+              animation={[
+                "quick",
+                {
+                  opacity: {
+                    overshootClamping: true,
+                  },
+                },
+              ]}
+              enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+              exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+              x={0}
+              scale={1}
+              opacity={1}
+              y={0}
+            >
+              <YStack space>
+                <AlertDialog.Description>
+                  Tercih listesini silmek istediğinize emin misiniz?
+                </AlertDialog.Description>
+
+                <XStack space="$3" justifyContent="flex-end">
+                  <AlertDialog.Cancel asChild>
+                    <Button>İptal</Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action
+                    onPress={() => _handleDeletePreferenceList()}
+                    asChild
+                  >
+                    <Button>Sil</Button>
+                  </AlertDialog.Action>
+                </XStack>
+              </YStack>
+            </AlertDialog.Content>
+          </AlertDialog.Portal>
+        </AlertDialog>
       </Button>
     </Link>
   );
@@ -65,18 +140,10 @@ const Preferences = () => {
   const [input, setInput] = useState("");
   const { data, isLoading, mutate, error } = getPreferenceList();
   const { trigger } = addPreferenceList();
+
   const [showInput, setShowInput] = useState(false);
   const [preferenceInput, setPreferenceInput] = useState("");
 
-  useMemo(() => {
-    const checkFirstData = async () => {
-      if (data && data.length === 0 && !isLoading && !error) {
-        await trigger({ name: "Tercih Listem" } as any);
-        mutate();
-      }
-    };
-    checkFirstData();
-  }, [data, isLoading, error]);
   let filteredData = data;
   if (input != "") {
     filteredData = data.filter((item) =>
@@ -138,6 +205,7 @@ const Preferences = () => {
           </Pressable>
         ) : null}
       </XStack>
+      {isLoading ? <LoadingIndicator /> : null}
       {showInput ? (
         <XStack ai="center" mx={15} my={4}>
           <Input
@@ -199,6 +267,7 @@ const Preferences = () => {
       />
       <SafeAreaView style={{ marginTop: 15 }}>
         <Button
+          mb={15}
           onPress={() => setShowInput(!showInput)}
           size={"$4"}
           mx={15}
