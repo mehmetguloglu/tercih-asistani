@@ -1,9 +1,8 @@
 import React from "react";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import HeaderBack from "../../../components/buttons/HeaderBack";
 
 const _layout = () => {
-  const router = useRouter();
   return (
     <>
       <Stack

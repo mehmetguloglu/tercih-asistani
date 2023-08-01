@@ -5,8 +5,9 @@ import HeaderBack from "../../../components/buttons/HeaderBack";
 import { PreferencesButton } from "../../../components";
 
 const _layout = () => {
-  const { selectedUniversity, input }: { selectedUniversity: any; input: any } =
-    useAppSelector((state) => state.universityDetailsReducer);
+  const { selectedUniversity }: { selectedUniversity: any } = useAppSelector(
+    (state) => state.universityDetailsReducer
+  );
   return (
     <>
       <Stack screenOptions={{ headerShown: false }}>

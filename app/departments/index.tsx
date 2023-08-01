@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -20,12 +20,15 @@ import {
 } from "../../bussiness/reducers/departmentDetailsReducer";
 import { useFocusEffect } from "@react-navigation/native";
 import { useAppDispatch, useAppSelector } from "../../bussiness/hooks";
-import { Stack, XStack, Text, Button, ZStack } from "tamagui";
+import { Stack, XStack, Text, Button, ZStack, YStack, Spinner } from "tamagui";
 import { getAllDepartments } from "../../bussiness/actions/departments";
 import { LoadingIndicator } from "../../components";
 import AdItem from "../../components/advertising-components/AdItem";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import LoadMoreButton from "../../components/buttons/LoadMoreButton";
+
 const { height, width } = Dimensions.get("window");
+
 const Departments = () => {
   const { input } = useAppSelector((state) => state.departmentsReducer);
   const dispatch = useAppDispatch();
@@ -44,6 +47,7 @@ const Departments = () => {
   const [eaSelected, setEaSelected] = useState(false);
   const [sozSelected, setSozSelected] = useState(false);
   const [dilSelected, setDilSelected] = useState(false);
+  const [showDepartment, setShowDepartment] = useState(50);
   let filterData = data?.filter((item) =>
     turkishToEnglish(item.name).includes(turkishToEnglish(input))
   );
@@ -64,7 +68,6 @@ const Departments = () => {
           : false)
     );
   }
-  console.log(filterData);
 
   return (
     <Stack f={1}>
@@ -164,18 +167,15 @@ const Departments = () => {
             </Pressable>
           </XStack>
         ) : null}
-
+        <AdItem />
         <View style={{ minHeight: 500 }}>
           <FlashList
-            ListHeaderComponent={() => <AdItem />}
-            // ListFooterComponent={() => <AdItem />}
-            contentContainerStyle={{ paddingBottom: height / 33 }}
+            nestedScrollEnabled
             numColumns={
               Platform.isPad || width > 700 || Platform.OS == "macos" ? 2 : 1
             }
-            nestedScrollEnabled
             estimatedItemSize={76}
-            data={filterData}
+            data={filterData?.slice(0, showDepartment)}
             keyExtractor={(item: any) => item.name}
             renderItem={({ item, index }) => (
               <DepartmentItem
@@ -193,6 +193,13 @@ const Departments = () => {
               ) : null
             }
           />
+          <View style={{ paddingBottom: height / 33 }}>
+            {!isLoading && filterData?.length > showDepartment ? (
+              <LoadMoreButton
+                onPress={() => setShowDepartment(showDepartment + 100)}
+              />
+            ) : null}
+          </View>
         </View>
       </ScrollView>
     </Stack>

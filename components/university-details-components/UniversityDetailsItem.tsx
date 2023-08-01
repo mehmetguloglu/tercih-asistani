@@ -1,8 +1,13 @@
 import { Pressable, Dimensions, Platform } from "react-native";
 import React, { useState } from "react";
-import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Feather,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
-import { XStack, Text, YStack, Button } from "tamagui";
+import { XStack, Text, YStack, Button, Spinner } from "tamagui";
 import Line from "../Line";
 import DetailsItemText from "../DetailsItemText";
 import Ribbon from "../Ribbon";
@@ -21,7 +26,7 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const { data, isLoading, mutate } = getPreferenceList();
-  const { trigger } = addPreferenceItem();
+  const { trigger, isMutating } = addPreferenceItem();
 
   const _handleAddPreferenceDirect = async () => {
     const result = await trigger({
@@ -91,6 +96,7 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
       >
         <Pressable
           style={{ flex: 1 }}
+          disabled={isMutating}
           onPress={() => {
             setSelected(!selected);
           }}
@@ -106,7 +112,8 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
                 ? item.oldDepartmentName
                 : item.department.name}
             </Text>
-            <Button
+            {/* <Button
+              disabled={isMutating}
               aspectRatio={1}
               p={0}
               bw={0}
@@ -123,8 +130,12 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
                 // );
               }}
             >
-              <Feather name="check-circle" size={24} color="green" />
-            </Button>
+              {isMutating ? (
+                <Spinner />
+              ) : (
+                <Feather name="check-circle" size={24} color="green" />
+              )}
+            </Button> */}
           </XStack>
 
           <Line ml={15} mr={3} />
@@ -201,6 +212,38 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
               : ""
           }
         />
+        <Button
+          shadowColor="#000"
+          shadowOffset={{
+            width: 0,
+            height: 12,
+          }}
+          shadowOpacity={0.58}
+          shadowRadius={16.0}
+          elevation={24}
+          zIndex={1}
+          right={-10}
+          bottom={10}
+          position="absolute"
+          disabled={isMutating}
+          aspectRatio={1}
+          p={0}
+          bw={0}
+          br={30}
+          bg="white"
+          onPress={() => {
+            data?.length != 1
+              ? setModalVisible(!modalVisible)
+              : _handleAddPreferenceDirect();
+          }}
+        >
+          {isMutating ? (
+            <Spinner />
+          ) : (
+            // <Feather name="check-circle" size={24} color={"green"} />
+            <MaterialIcons name="add-task" size={26} color="green" />
+          )}
+        </Button>
       </XStack>
       <AddPreferencesListItemModal
         setModalVisible={setModalVisible}

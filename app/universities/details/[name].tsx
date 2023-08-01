@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Stack, Text, Image, XStack, ZStack, Button } from "tamagui";
+import { Stack, Text, XStack, ZStack, Button } from "tamagui";
 import { useRouter } from "expo-router";
 import { StyleSheet, Pressable, ScrollView, Dimensions } from "react-native";
 // import * as WebBrowser from "expo-web-browser";
-import { Feather } from "@expo/vector-icons";
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useAppDispatch, useAppSelector } from "../../../bussiness/hooks";
 import UniversityLogo from "../../../components/UniversityLogo";
 import { SearchInput } from "../../../components/inputs";
@@ -11,9 +11,11 @@ import {
   setFilterPointType,
   setInput,
 } from "../../../bussiness/reducers/universityDetailsReducer";
-import { MaterialIcons } from "@expo/vector-icons";
 import { UniversityDetailsFlashList } from "../../../components/university-details-components";
+import AdDetailsItem from "../../../components/advertising-components/AdDetailsItem";
+import AdItem from "../../../components/advertising-components/AdItem";
 
+const { width } = Dimensions.get("screen");
 const Detail = () => {
   const [changeDepartment, setChangeDepartment] = useState(1);
   const router = useRouter();
@@ -217,6 +219,7 @@ const Detail = () => {
             </XStack>
           ) : null}
         </Stack>
+        {width < 700 ? <AdDetailsItem /> : <AdItem />}
 
         <UniversityDetailsFlashList changeDepartment={changeDepartment} />
       </ScrollView>

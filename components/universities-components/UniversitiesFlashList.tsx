@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../bussiness/hooks";
 import { getAllUniversities } from "../../bussiness/actions/universities";
 import { Text } from "tamagui";
 import AdItem from "../advertising-components/AdItem";
+import LoadMoreButton from "../buttons/LoadMoreButton";
 const { height, width } = Dimensions.get("window");
 
 const UniversitiesFlashList = ({
@@ -25,6 +26,7 @@ const UniversitiesFlashList = ({
   const flatref = useRef(null);
   const { input } = useAppSelector((state) => state.universitiesReducer);
   const { data, isLoading } = getAllUniversities();
+  const [showUniversity, setShowUniversity] = useState(50);
 
   const dispatch = useAppDispatch();
   useFocusEffect(
@@ -54,14 +56,12 @@ const UniversitiesFlashList = ({
   return (
     <>
       <FlashList
-        ListHeaderComponent={() => <AdItem />}
-        // ListFooterComponent={() => <AdItem />}
         nestedScrollEnabled
         estimatedItemSize={76}
         showsVerticalScrollIndicator={false}
         ref={flatref}
         keyExtractor={(item: any) => item.name}
-        data={filterData}
+        data={filterData?.slice(0, showUniversity)}
         renderItem={({ item, index }) => (
           <UniversityItem item={item} index={index} />
         )}
@@ -76,7 +76,13 @@ const UniversitiesFlashList = ({
           ) : null
         }
       />
-      <View style={{ marginBottom: height / 33 }} />
+      <View style={{ paddingBottom: height / 33 }}>
+        {!isLoading && filterData?.length > showUniversity ? (
+          <LoadMoreButton
+            onPress={() => setShowUniversity(showUniversity + 100)}
+          />
+        ) : null}
+      </View>
     </>
   );
 };

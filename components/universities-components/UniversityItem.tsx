@@ -72,6 +72,7 @@ const UniversityItem = ({ item, index }) => {
 };
 const styles = StyleSheet.create({
   universityItem: {
+    height: 76,
     marginVertical: 4,
     marginHorizontal: 15,
     backgroundColor: "white",

@@ -19,7 +19,7 @@
     "name": "Tercih Asistanı",
     "slug": "tercih-asistani",
     "scheme": "tercih-asistani",
-    "version": "1.5.0",
+    "version": "1.7.0",
     "orientation": "portrait",
     "icon": "./assets/tercih-asistani-icon.png",
     "userInterfaceStyle": "light",
@@ -31,19 +31,17 @@
     "updates": {
       "fallbackToCacheTimeout": 6000,
       "enabled": false,
-      "checkAutomatically": "ON_LOAD"
+      "checkAutomatically": "ON_LOAD",
+      "url": "https://u.expo.dev/0381792d-38c0-4666-a966-5f8e90b35e50"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.5.0",
+      "buildNumber": "1.7.0",
       "bundleIdentifier": "com.tercih-asistani.app",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 6,
-      "config": {
-        "googleMobileAdsAppId": "ca-app-pub-8545961952430100~8304578693"
-      },
+      "versionCode": 8,
       "package": "com.tercih_asistani.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/tercih-asistani-icon.png",
@@ -58,13 +56,15 @@
       "eas": {
         "projectId": "0381792d-38c0-4666-a966-5f8e90b35e50"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-8545961952430100~8304578693",
     "ios_app_id": "ca-app-pub-8545961952430100~6348816426",
     "delay_app_measurement_init": true,
-
     "sk_ad_network_items": [
       "cstr6suwn9.skadnetwork",
       "4fzdc2evr5.skadnetwork",

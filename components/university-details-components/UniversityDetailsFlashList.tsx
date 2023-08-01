@@ -64,7 +64,7 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
     );
   }
   if (filterRanking[0] != 0 || filterRanking[1] != 10000000) {
-    filterData = filterData.filter((item) =>
+    filterData = filterData?.filter((item) =>
       item.yksSuccessRanking
         ? filterRanking[0] <= item.yksSuccessRanking &&
           filterRanking[1] >= item.yksSuccessRanking
@@ -73,7 +73,6 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
   }
   return (
     <FlashList
-      ListHeaderComponent={() => <AdDetailsItem />}
       ListEmptyComponent={() => {
         return isLoading ? (
           <LoadingIndicator />

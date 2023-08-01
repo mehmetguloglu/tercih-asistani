@@ -9,8 +9,10 @@ import { Button, Stack, XStack, Text, YStack, Input } from "tamagui";
 import { FlashList } from "@shopify/flash-list";
 import Line from "./Line";
 import Modal from "react-native-modal";
-
 import * as Burnt from "burnt";
+import AdFullscreen from "./advertising-components/AdFullscreen";
+import { StatusBar } from "expo-status-bar";
+import { Octicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 const AddPreferencesListItemModal = ({
@@ -23,6 +25,7 @@ const AddPreferencesListItemModal = ({
   const { data, isLoading, mutate } = getPreferenceList();
   const { trigger } = addPreferenceList();
   const { trigger: addPreferenceItemTrigger } = addPreferenceItem();
+  const { show, isLoaded, isShowing } = AdFullscreen();
 
   const _handleAddPreferenceList = async () => {
     const result = await trigger({ name: preferenceInput } as any);
@@ -67,6 +70,16 @@ const AddPreferencesListItemModal = ({
       });
     }
   };
+
+  const _handleShowAddPreferenceList = () => {
+    if (isLoaded === true && data?.length > 3) {
+      show();
+      setShowInput(!showInput);
+    } else {
+      setShowInput(!showInput);
+    }
+  };
+
   return (
     // <View style={styles.centeredView}>
     <Modal
@@ -74,6 +87,7 @@ const AddPreferencesListItemModal = ({
       onBackdropPress={() => setModalVisible(!modalVisible)}
       hasBackdrop={true}
     >
+      <StatusBar style="light" hidden={isShowing} />
       <View style={styles.centeredView}>
         <YStack
           borderStyle={"solid"}
@@ -167,9 +181,12 @@ const AddPreferencesListItemModal = ({
                 bg={"#1a73e8"}
                 f={1}
                 size={"$3.5"}
-                onPress={() => setShowInput(!showInput)}
+                onPress={() => _handleShowAddPreferenceList()}
               >
                 <Text color={"white"}> Yeni Liste Oluştur</Text>
+                {data?.length > 3 && isLoaded ? (
+                  <Octicons name="video" size={24} color="white" />
+                ) : null}
               </Button>
             </XStack>
           </YStack>

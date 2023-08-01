@@ -24,10 +24,10 @@ const DepartmentItem = ({ item, index, changeDepartment }) => {
   return (
     <Link
       href={{
-        pathname: "/departments/details/",
+        pathname: "/departments/details/" + item.name,
         params: {
           changeDepartment: changeDepartment,
-          selectedDepartmentName: item.name,
+          selectedDepartmentNameEncode: encodeURIComponent(item.name),
           selectedDepartmentId: item.id,
         },
       }}

@@ -1,7 +1,7 @@
 import { View, Pressable, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import { AlertDialog, Button, Text, XStack, YStack } from "tamagui";
+import { AlertDialog, Button, Spinner, Text, XStack, YStack } from "tamagui";
 import DetailsItemText from "../DetailsItemText";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
@@ -15,7 +15,7 @@ import {
 const PreferencesItem = ({ preferenceItem }) => {
   const { universityPreference: item } = preferenceItem;
   const [selected, setSelected] = useState(true);
-  const { trigger: deleteTrigger } = deletePreferenceItem();
+  const { trigger: deleteTrigger, isMutating } = deletePreferenceItem();
   const { mutate } = getPreferenceListItems(preferenceItem.preferenceListId);
 
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
@@ -52,6 +52,7 @@ const PreferencesItem = ({ preferenceItem }) => {
     >
       <Pressable
         style={{ flex: 1 }}
+        disabled={isMutating}
         onPress={() => {
           setSelected(!selected);
         }}
@@ -72,61 +73,6 @@ const PreferencesItem = ({ preferenceItem }) => {
                 : item.department.name}
             </Text>
           </YStack>
-
-          <AlertDialog native>
-            <AlertDialog.Trigger asChild>
-              <Button borderWidth={0} bg={"white"} size={"$3"}>
-                <MaterialIcons name="delete" size={24} color="darkred" />
-              </Button>
-            </AlertDialog.Trigger>
-
-            <AlertDialog.Portal>
-              <AlertDialog.Overlay
-                key="overlay"
-                animation="quick"
-                opacity={0.5}
-                enterStyle={{ opacity: 0 }}
-                exitStyle={{ opacity: 0 }}
-              />
-              <AlertDialog.Content
-                bordered
-                elevate
-                key="content"
-                animation={[
-                  "quick",
-                  {
-                    opacity: {
-                      overshootClamping: true,
-                    },
-                  },
-                ]}
-                enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
-                exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
-                x={0}
-                scale={1}
-                opacity={1}
-                y={0}
-              >
-                <YStack space>
-                  <AlertDialog.Description>
-                    Tercihinizi silmek istediğinize emin misiniz?
-                  </AlertDialog.Description>
-
-                  <XStack space="$3" justifyContent="flex-end">
-                    <AlertDialog.Cancel asChild>
-                      <Button>İptal</Button>
-                    </AlertDialog.Cancel>
-                    <AlertDialog.Action
-                      onPress={() => _handleDeletePreferenceList()}
-                      asChild
-                    >
-                      <Button>Sil</Button>
-                    </AlertDialog.Action>
-                  </XStack>
-                </YStack>
-              </AlertDialog.Content>
-            </AlertDialog.Portal>
-          </AlertDialog>
         </XStack>
         <Line ml={15} mr={3} />
 
@@ -197,6 +143,96 @@ const PreferencesItem = ({ preferenceItem }) => {
             : "Yurtdışı"
         }
       />
+      <AlertDialog native>
+        <AlertDialog.Trigger asChild>
+          {/* <Button
+                disabled={isMutating}
+                borderWidth={0}
+                bg={"white"}
+                size={"$3"}
+              >
+                {isMutating ? (
+                  <Spinner />
+                ) : (
+                  <MaterialIcons name="delete" size={24} color="darkred" />
+                )}
+              </Button> */}
+          <Button
+            disabled={isMutating}
+            shadowColor="#000"
+            shadowOffset={{
+              width: 0,
+              height: 12,
+            }}
+            shadowOpacity={0.58}
+            shadowRadius={16.0}
+            elevation={24}
+            zIndex={1}
+            right={-10}
+            bottom={10}
+            position="absolute"
+            aspectRatio={1}
+            p={0}
+            bw={0}
+            br={30}
+            bg="white"
+          >
+            {isMutating ? (
+              <Spinner />
+            ) : (
+              // <Feather name="check-circle" size={24} color={"green"} />
+              <MaterialIcons name="delete" size={24} color="darkred" />
+            )}
+          </Button>
+        </AlertDialog.Trigger>
+
+        <AlertDialog.Portal>
+          <AlertDialog.Overlay
+            key="overlay"
+            animation="quick"
+            opacity={0.5}
+            enterStyle={{ opacity: 0 }}
+            exitStyle={{ opacity: 0 }}
+          />
+          <AlertDialog.Content
+            bordered
+            elevate
+            key="content"
+            animation={[
+              "quick",
+              {
+                opacity: {
+                  overshootClamping: true,
+                },
+              },
+            ]}
+            enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+            exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+            x={0}
+            scale={1}
+            opacity={1}
+            y={0}
+          >
+            <YStack space>
+              <AlertDialog.Description>
+                Tercihinizi silmek istediğinize emin misiniz?
+              </AlertDialog.Description>
+
+              <XStack space="$3" justifyContent="flex-end">
+                <AlertDialog.Cancel asChild>
+                  <Button>İptal</Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action
+                  onPress={() => _handleDeletePreferenceList()}
+                  asChild
+                >
+                  <Button>Sil</Button>
+                </AlertDialog.Action>
+              </XStack>
+            </YStack>
+          </AlertDialog.Content>
+        </AlertDialog.Portal>
+      </AlertDialog>
     </XStack>
   );
 };

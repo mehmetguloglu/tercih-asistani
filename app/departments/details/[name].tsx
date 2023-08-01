@@ -13,9 +13,9 @@ import { getDepartmentDetails } from "../../../bussiness/actions/departmentDetai
 import { LoadingIndicator, PreferencesButton } from "../../../components";
 import AdDetailsItem from "../../../components/advertising-components/AdDetailsItem";
 import HeaderBack from "../../../components/buttons/HeaderBack";
+import AdItem from "../../../components/advertising-components/AdItem";
 
-const { width, height } = Dimensions.get("window");
-
+const { width, height } = Dimensions.get("screen");
 const Detail = () => {
   const [selectedUniversityType, setSelectedUniversityType] = useState([
     false,
@@ -33,18 +33,21 @@ const Detail = () => {
     filterRanking: any;
   } = useAppSelector((state) => state.departmentDetailsReducer);
   const router = useRouter();
-  const { selectedDepartmentName, selectedDepartmentId, changeDepartment } =
-    useLocalSearchParams<{
-      selectedDepartmentName: string;
-      selectedDepartmentId: string;
-      changeDepartment: string;
-    }>();
+  const {
+    name: selectedDepartmentName,
+    selectedDepartmentId,
+    changeDepartment,
+  } = useLocalSearchParams<{
+    name: string;
+    selectedDepartmentId: string;
+    changeDepartment: string;
+  }>();
+
   const departmentId = selectedDepartmentId;
   const { data, isLoading } = getDepartmentDetails(
     departmentId,
     changeDepartment == "1"
   );
-
   let filterData = data;
 
   if (input != "") {
@@ -177,8 +180,8 @@ const Detail = () => {
             </Text>
           </Pressable>
         </XStack>
+        {width < 700 ? <AdDetailsItem /> : <AdItem />}
         <FlashList
-          ListHeaderComponent={() => <AdDetailsItem />}
           ListEmptyComponent={() => {
             return isLoading ? (
               <LoadingIndicator />
@@ -197,10 +200,10 @@ const Detail = () => {
           renderItem={({ item, index }) => (
             <DepartmentDetailsItem
               item={item}
-              index={index}
               departmentName={selectedDepartmentName}
             />
           )}
+          showsVerticalScrollIndicator={false}
         />
       </ScrollView>
     </>

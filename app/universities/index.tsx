@@ -1,10 +1,9 @@
-import { ScrollView, Pressable } from "react-native";
+import { ScrollView, Pressable, StyleSheet } from "react-native";
 import { Stack, XStack, Text } from "tamagui";
 import React, { useState } from "react";
 import _ from "lodash";
 
 import { useFocusEffect } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../bussiness/hooks";
 import {
   setInput,
@@ -12,6 +11,7 @@ import {
 } from "../../bussiness/reducers/universitiesReducer";
 import { SearchInput } from "../../components/inputs";
 import { UniversitiesFlashList } from "../../components/universities-components";
+import AdItem from "../../components/advertising-components/AdItem";
 
 const Universites = () => {
   const [governmentSelected, setGovernmentSelected] = useState(false);
@@ -61,7 +61,7 @@ const Universites = () => {
             <Text color={abroadSelected ? "white" : "black"}>Yurtdışı</Text>
           </Pressable>
         </XStack>
-
+        <AdItem />
         <UniversitiesFlashList
           governmentSelected={governmentSelected}
           foundationSelected={foundationSelected}
@@ -95,5 +95,4 @@ const styles = StyleSheet.create({
 
     elevation: 3,
   },
-  universityTypeText: {},
 });

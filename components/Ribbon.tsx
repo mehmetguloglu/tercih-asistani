@@ -5,6 +5,7 @@ interface RibbonProps {
   bg?: string;
   bgb?: string;
   text?: string;
+  props?: any;
 }
 
 const Ribbon: React.FC<RibbonProps> = ({ bg, bgb, text }) => {

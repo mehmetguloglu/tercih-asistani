@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { getPreferenceListItems } from "../../../bussiness/actions/preferences";
@@ -6,6 +5,7 @@ import { FlashList } from "@shopify/flash-list";
 import PreferencesItem from "../../../components/preferences-components/PreferencesItem";
 import HeaderBack from "../../../components/buttons/HeaderBack";
 import { LoadingIndicator } from "../../../components";
+import { Text } from "tamagui";
 
 const PreferenceList = () => {
   const { id, name } = useLocalSearchParams();
@@ -22,6 +22,13 @@ const PreferenceList = () => {
       />
       {isLoading ? <LoadingIndicator /> : null}
       <FlashList
+        ListEmptyComponent={() => {
+          return isLoading ? (
+            <LoadingIndicator />
+          ) : data?.length === 0 ? (
+            <Text m={15}>Sonuç bulunamadı.</Text>
+          ) : null;
+        }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10 }}
         estimatedItemSize={100}
@@ -33,13 +40,6 @@ const PreferenceList = () => {
       />
     </>
   );
-  //   return (
-  // <FlashList
-  // data={data}
-  // keyExtractor={(item:any) => item.id.toString()}
-  // renderItem={({ item }: { item: any }) => <PreferencesItem item={item} />}
-  // />
-  //   );
 };
 
 export default PreferenceList;

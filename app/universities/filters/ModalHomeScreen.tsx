@@ -12,6 +12,7 @@ import {
 const ModalHomeScreen = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+
   const { filterPoints, filterRanking } = useAppSelector(
     (state) => state.universityDetailsReducer
   );

@@ -1,11 +1,15 @@
-import { Pressable, Platform, Dimensions } from "react-native";
+import { Pressable } from "react-native";
 import React, { useState } from "react";
-import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import {
+  Ionicons,
+  AntDesign,
+  Feather,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import DetailsItemText from "../DetailsItemText";
-import { Button, Text, XStack, YStack } from "tamagui";
+import { Button, Spinner, Stack, Text, XStack, YStack } from "tamagui";
 import Line from "../Line";
 import Ribbon from "../Ribbon";
-import * as Haptics from "expo-haptics";
 import AddPreferencesListItemModal from "../AddPreferencesListItemModal";
 import {
   addPreferenceItem,
@@ -13,10 +17,7 @@ import {
 } from "../../bussiness/actions/preferences";
 import * as Burnt from "burnt";
 
-// import AdDetailsItem from "../advertising-components/AdDetailsItem";
-// import { getAdvLocationCount } from "../../utils/device-helper";
-// const { width } = Dimensions.get("window");
-const DepartmentDetailsItem = ({ item, departmentName, index }) => {
+const DepartmentDetailsItem = ({ item, departmentName }) => {
   const { data, isLoading, mutate } = getPreferenceList();
   const [selected, setSelected] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,13 +48,6 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
 
   return (
     <YStack f={1}>
-      {/* {index % advLocation === 0 && !Platform.isPad && width < 700 ? (
-        <AdDetailsItem />
-      ) : (Platform.isPad || width > 700) &&
-        (index % (advLocation * 2) == 0 || index % (advLocation * 2) == 1) ? (
-        <AdDetailsItem />
-      ) : null} */}
-
       <XStack
         f={1}
         bg={"white"}
@@ -73,6 +67,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
       >
         <Pressable
           style={{ flex: 1 }}
+          disabled={isMutating}
           onPress={() => {
             setSelected(!selected);
           }}
@@ -93,7 +88,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                   : departmentName}
               </Text>
             </YStack>
-            <Button
+            {/* <Button
               disabled={isMutating}
               aspectRatio={1}
               p={0}
@@ -106,17 +101,14 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
                 data?.length != 1
                   ? setModalVisible(!modalVisible)
                   : _handleAddPreferenceDirect();
-                // Haptics.notificationAsync(
-                //   Haptics.NotificationFeedbackType.Error
-                // );
               }}
             >
-              <Feather
-                name="check-circle"
-                size={24}
-                color={isMutating ? "gray" : "green"}
-              />
-            </Button>
+              {isMutating ? (
+                <Spinner />
+              ) : (
+                <Feather name="check-circle" size={24} color={"green"} />
+              )}
+            </Button> */}
           </XStack>
           <Line ml={15} mr={3} />
 
@@ -164,6 +156,7 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
             </>
           ) : null}
         </Pressable>
+
         <Ribbon
           bg={
             item.university.type == 2
@@ -187,6 +180,39 @@ const DepartmentDetailsItem = ({ item, departmentName, index }) => {
               : "Yurtdışı"
           }
         />
+        {/*  Add button to add preference*/}
+        <Button
+          shadowColor="#000"
+          shadowOffset={{
+            width: 0,
+            height: 12,
+          }}
+          shadowOpacity={0.58}
+          shadowRadius={16.0}
+          elevation={24}
+          zIndex={1}
+          right={-10}
+          bottom={10}
+          position="absolute"
+          disabled={isMutating}
+          aspectRatio={1}
+          p={0}
+          bw={0}
+          br={30}
+          bg="white"
+          onPress={() => {
+            data?.length != 1
+              ? setModalVisible(!modalVisible)
+              : _handleAddPreferenceDirect();
+          }}
+        >
+          {isMutating ? (
+            <Spinner />
+          ) : (
+            // <Feather name="check-circle" size={24} color={"green"} />
+            <MaterialIcons name="add-task" size={26} color="green" />
+          )}
+        </Button>
       </XStack>
       <AddPreferencesListItemModal
         setModalVisible={setModalVisible}

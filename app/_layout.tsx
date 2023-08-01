@@ -6,16 +6,16 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Button, TamaguiProvider, Text, Theme, View } from "tamagui";
+import { PortalHost, TamaguiProvider, Text, Theme, View } from "tamagui";
 import { Provider } from "react-redux";
 import { store } from "../bussiness/redux-store";
 import config from "../tamagui.config";
 import { PreferencesButton } from "../components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import client from "../utils/client";
-import OpenDrawerMenu from "../components/OpenDrawerMenu";
+import StorageKeys from "../utils/storage-keys";
 
 export default function Layout() {
   const colorScheme = useColorScheme();
@@ -26,11 +26,14 @@ export default function Layout() {
 
   useEffect(() => {
     const userControl = async () => {
-      const user = await AsyncStorage.getItem("user");
+      const user = await AsyncStorage.getItem(StorageKeys.USER_BEARER_TOKEN);
       if (user === null) {
         const result = await client.post("/v1/MobileUser/RegisterUser");
         if (result.data.isSuccessfull) {
-          await AsyncStorage.setItem("user", result.data.data);
+          await AsyncStorage.setItem(
+            StorageKeys.USER_BEARER_TOKEN,
+            result.data.data
+          );
         }
       }
     };
@@ -55,6 +58,7 @@ export default function Layout() {
             <ThemeProvider
               value={colorScheme === "light" ? DefaultTheme : DefaultTheme}
             >
+              <PortalHost name={"loadingindicatorportal"} />
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen
                   name="index"
