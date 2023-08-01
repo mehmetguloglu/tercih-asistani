@@ -26,6 +26,7 @@ import { LoadingIndicator } from "../../components";
 import AdItem from "../../components/advertising-components/AdItem";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import LoadMoreButton from "../../components/buttons/LoadMoreButton";
+import LoadMoreDetailsButton from "../../components/buttons/LoadMoreDetailsButton";
 
 const { height, width } = Dimensions.get("window");
 
@@ -195,7 +196,7 @@ const Departments = () => {
           />
           <View style={{ paddingBottom: height / 33 }}>
             {!isLoading && filterData?.length > showDepartment ? (
-              <LoadMoreButton
+              <LoadMoreDetailsButton
                 onPress={() => setShowDepartment(showDepartment + 100)}
               />
             ) : null}

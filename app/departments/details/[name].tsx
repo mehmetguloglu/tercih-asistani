@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../../bussiness/hooks";
-import { Button, ScrollView, Text, XStack } from "tamagui";
+import { Button, ScrollView, Text, XStack, Stack as TGStack } from "tamagui";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Pressable, Dimensions, Platform } from "react-native";
@@ -14,6 +14,7 @@ import { LoadingIndicator, PreferencesButton } from "../../../components";
 import AdDetailsItem from "../../../components/advertising-components/AdDetailsItem";
 import HeaderBack from "../../../components/buttons/HeaderBack";
 import AdItem from "../../../components/advertising-components/AdItem";
+import LoadMoreDetailsButton from "../../../components/buttons/LoadMoreDetailsButton";
 
 const { width, height } = Dimensions.get("screen");
 const Detail = () => {
@@ -22,6 +23,7 @@ const Detail = () => {
     false,
     false,
   ]);
+  const [itemCount, setItemCount] = useState(50);
 
   const {
     input,
@@ -190,9 +192,8 @@ const Detail = () => {
             ) : null;
           }}
           nestedScrollEnabled={false}
-          contentContainerStyle={{ paddingBottom: height / 33 }}
           estimatedItemSize={113}
-          data={filterData}
+          data={filterData?.slice(0, itemCount)}
           keyExtractor={(item: any) => item.id}
           numColumns={
             Platform.isPad || Platform.OS == "macos" || width > 700 ? 2 : 1
@@ -205,6 +206,14 @@ const Detail = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
+
+        <TGStack mb={height / 33}>
+          {filterData?.length > itemCount && (
+            <LoadMoreDetailsButton
+              onPress={() => setItemCount(itemCount + 100)}
+            />
+          )}
+        </TGStack>
       </ScrollView>
     </>
   );

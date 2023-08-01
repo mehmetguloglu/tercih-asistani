@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Platform, Dimensions } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import UniversityDetailsItem from "./UniversityDetailsItem";
 import LoadingIndicator from "../LoadingIndicator";
 import { turkishToEnglish } from "../../utils/text-helper";
 import { useAppSelector } from "../../bussiness/hooks";
-import { Text } from "tamagui";
+import { Stack, Text } from "tamagui";
 import { getUniversityDetails } from "../../bussiness/actions/universityDetails";
-import AdItem from "../advertising-components/AdItem";
-import AdDetailsItem from "../advertising-components/AdDetailsItem";
+import LoadMoreDetailsButton from "../buttons/LoadMoreDetailsButton";
 
 const { width, height } = Dimensions.get("window");
 const UniversityDetailsFlashList = ({ changeDepartment }) => {
+  const [itemCount, setItemCount] = useState(50);
   const {
     selectedUniversity,
     filterPointType,
@@ -72,35 +72,41 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
     );
   }
   return (
-    <FlashList
-      ListEmptyComponent={() => {
-        return isLoading ? (
-          <LoadingIndicator />
-        ) : filterData?.length === 0 ? (
-          <Text m={15}>Sonuç bulunamadı</Text>
-        ) : null;
-      }}
-      contentContainerStyle={{
-        paddingBottom: height / 33,
-      }}
-      nestedScrollEnabled={false}
-      estimatedItemSize={120}
-      numColumns={
-        Platform.isPad || Platform.OS == "macos" || width > 700 ? 2 : 1
-      }
-      showsVerticalScrollIndicator={false}
-      keyExtractor={(item: any) => item.id}
-      data={filterData}
-      renderItem={({ item, index }) => {
-        return (
-          <UniversityDetailsItem
-            item={item}
-            index={index}
-            changeDepartment={changeDepartment}
+    <>
+      <FlashList
+        ListEmptyComponent={() => {
+          return isLoading ? (
+            <LoadingIndicator />
+          ) : filterData?.length === 0 ? (
+            <Text m={15}>Sonuç bulunamadı</Text>
+          ) : null;
+        }}
+        nestedScrollEnabled={false}
+        estimatedItemSize={120}
+        numColumns={
+          Platform.isPad || Platform.OS == "macos" || width > 700 ? 2 : 1
+        }
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item: any) => item.id}
+        data={filterData?.slice(0, itemCount)}
+        renderItem={({ item, index }) => {
+          return (
+            <UniversityDetailsItem
+              item={item}
+              index={index}
+              changeDepartment={changeDepartment}
+            />
+          );
+        }}
+      />
+      <Stack mb={height / 33}>
+        {filterData?.length > itemCount && (
+          <LoadMoreDetailsButton
+            onPress={() => setItemCount(itemCount + 100)}
           />
-        );
-      }}
-    />
+        )}
+      </Stack>
+    </>
   );
 };
 

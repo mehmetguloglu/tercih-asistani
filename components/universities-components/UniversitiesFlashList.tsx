@@ -16,6 +16,7 @@ import { getAllUniversities } from "../../bussiness/actions/universities";
 import { Text } from "tamagui";
 import AdItem from "../advertising-components/AdItem";
 import LoadMoreButton from "../buttons/LoadMoreButton";
+import LoadMoreDetailsButton from "../buttons/LoadMoreDetailsButton";
 const { height, width } = Dimensions.get("window");
 
 const UniversitiesFlashList = ({
@@ -78,7 +79,7 @@ const UniversitiesFlashList = ({
       />
       <View style={{ paddingBottom: height / 33 }}>
         {!isLoading && filterData?.length > showUniversity ? (
-          <LoadMoreButton
+          <LoadMoreDetailsButton
             onPress={() => setShowUniversity(showUniversity + 100)}
           />
         ) : null}
