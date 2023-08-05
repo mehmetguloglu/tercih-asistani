@@ -21,11 +21,15 @@ import AddPreferencesListItemModal from "../AddPreferencesListItemModal";
 // import AdDetailsItem from "../advertising-components/AdDetailsItem";
 // import { getAdvLocationCount } from "../../utils/device-helper";
 // const { width } = Dimensions.get("window");
-const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
+const UniversityDetailsItem = ({
+  item,
+  index,
+  changeDepartment,
+  addPreferenceItemModal,
+}) => {
   const [selected, setSelected] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const { data, isLoading, mutate } = getPreferenceList();
+  const { data } = getPreferenceList();
   const { trigger, isMutating } = addPreferenceItem();
 
   const _handleAddPreferenceDirect = async () => {
@@ -233,23 +237,17 @@ const UniversityDetailsItem = ({ item, index, changeDepartment }) => {
           bg="white"
           onPress={() => {
             data?.length != 1
-              ? setModalVisible(!modalVisible)
+              ? addPreferenceItemModal(item.id)
               : _handleAddPreferenceDirect();
           }}
         >
           {isMutating ? (
             <Spinner />
           ) : (
-            // <Feather name="check-circle" size={24} color={"green"} />
             <MaterialIcons name="add-task" size={26} color="green" />
           )}
         </Button>
       </XStack>
-      <AddPreferencesListItemModal
-        setModalVisible={setModalVisible}
-        modalVisible={modalVisible}
-        universityPreferenceId={item.id}
-      />
     </YStack>
   );
 };

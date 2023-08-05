@@ -15,9 +15,14 @@ import AdDetailsItem from "../../../components/advertising-components/AdDetailsI
 import HeaderBack from "../../../components/buttons/HeaderBack";
 import AdItem from "../../../components/advertising-components/AdItem";
 import LoadMoreDetailsButton from "../../../components/buttons/LoadMoreDetailsButton";
+import AddPreferencesListItemModal, {
+  AddPreferencesListItemModalRef,
+} from "../../../components/AddPreferencesListItemModal";
 
 const { width, height } = Dimensions.get("screen");
 const Detail = () => {
+  const addPreferencesListItemModalRef =
+    React.useRef<AddPreferencesListItemModalRef>(null);
   const [selectedUniversityType, setSelectedUniversityType] = useState([
     false,
     false,
@@ -50,6 +55,9 @@ const Detail = () => {
     departmentId,
     changeDepartment == "1"
   );
+  const addPreferenceItem = (universityPreferenceId: string) => {
+    addPreferencesListItemModalRef.current?.showModal(universityPreferenceId);
+  };
   let filterData = data;
 
   if (input != "") {
@@ -202,6 +210,7 @@ const Detail = () => {
             <DepartmentDetailsItem
               item={item}
               departmentName={selectedDepartmentName}
+              addPreferenceItemModal={addPreferenceItem}
             />
           )}
           showsVerticalScrollIndicator={false}
@@ -215,6 +224,7 @@ const Detail = () => {
           )}
         </TGStack>
       </ScrollView>
+      <AddPreferencesListItemModal ref={addPreferencesListItemModalRef} />
     </>
   );
 };

@@ -8,9 +8,14 @@ import { useAppSelector } from "../../bussiness/hooks";
 import { Stack, Text } from "tamagui";
 import { getUniversityDetails } from "../../bussiness/actions/universityDetails";
 import LoadMoreDetailsButton from "../buttons/LoadMoreDetailsButton";
+import AddPreferencesListItemModal, {
+  AddPreferencesListItemModalRef,
+} from "../AddPreferencesListItemModal";
 
 const { width, height } = Dimensions.get("window");
 const UniversityDetailsFlashList = ({ changeDepartment }) => {
+  const addPreferencesListItemModalRef =
+    React.useRef<AddPreferencesListItemModalRef>(null);
   const [itemCount, setItemCount] = useState(50);
   const {
     selectedUniversity,
@@ -30,6 +35,10 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
     selectedUniversity.id,
     changeDepartment == 1
   );
+  const addPreferenceItem = (universityPreferenceId: string) => {
+    addPreferencesListItemModalRef.current?.showModal(universityPreferenceId);
+  };
+
   let filterData = data;
 
   if (input != "") {
@@ -95,6 +104,7 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
               item={item}
               index={index}
               changeDepartment={changeDepartment}
+              addPreferenceItemModal={addPreferenceItem}
             />
           );
         }}
@@ -106,6 +116,7 @@ const UniversityDetailsFlashList = ({ changeDepartment }) => {
           />
         )}
       </Stack>
+      <AddPreferencesListItemModal ref={addPreferencesListItemModalRef} />
     </>
   );
 };

@@ -17,10 +17,13 @@ import {
 } from "../../bussiness/actions/preferences";
 import * as Burnt from "burnt";
 
-const DepartmentDetailsItem = ({ item, departmentName }) => {
+const DepartmentDetailsItem = ({
+  item,
+  departmentName,
+  addPreferenceItemModal,
+}) => {
   const { data, isLoading, mutate } = getPreferenceList();
   const [selected, setSelected] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
   const basePoint = item.basePoint?.toFixed(2).toString().replace(".", ",");
   const { trigger, isMutating } = addPreferenceItem();
 
@@ -202,23 +205,17 @@ const DepartmentDetailsItem = ({ item, departmentName }) => {
           bg="white"
           onPress={() => {
             data?.length != 1
-              ? setModalVisible(!modalVisible)
+              ? addPreferenceItemModal(item.id)
               : _handleAddPreferenceDirect();
           }}
         >
           {isMutating ? (
             <Spinner />
           ) : (
-            // <Feather name="check-circle" size={24} color={"green"} />
             <MaterialIcons name="add-task" size={26} color="green" />
           )}
         </Button>
       </XStack>
-      <AddPreferencesListItemModal
-        setModalVisible={setModalVisible}
-        modalVisible={modalVisible}
-        universityPreferenceId={item.id}
-      />
     </YStack>
   );
 };

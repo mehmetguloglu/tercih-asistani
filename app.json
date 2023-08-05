@@ -19,9 +19,9 @@
     "name": "Tercih Asistanı",
     "slug": "tercih-asistani",
     "scheme": "tercih-asistani",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "orientation": "portrait",
-    "icon": "./assets/tercih-asistani-icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -36,26 +36,32 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.7.0",
+      "buildNumber": "1.8.0",
       "bundleIdentifier": "com.tercih-asistani.app",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "appStoreUrl": "https://apps.apple.com/tr/app/tercih-asistan%C4%B1/id6451269651?l=tr",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "icon": "./assets/icon.png"
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "package": "com.tercih_asistani.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/tercih-asistani-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.tercih_asistani.app",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
-      "favicon": "./assets/tercih-asistani-icon.png",
+      "favicon": "./assets/icon.png",
       "bundler": "metro"
     },
     "extra": {
       "eas": {
         "projectId": "0381792d-38c0-4666-a966-5f8e90b35e50"
-      }
+      },
+      "mobileApplicationNextVersionNumber": 9
     },
     "runtimeVersion": {
       "policy": "sdkVersion"

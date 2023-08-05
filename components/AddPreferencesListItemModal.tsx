@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Alert, StyleSheet, Dimensions, View } from "react-native";
 import {
   addPreferenceItem,
@@ -14,18 +19,33 @@ import AdFullscreen from "./advertising-components/AdFullscreen";
 import { StatusBar } from "expo-status-bar";
 import { Octicons } from "@expo/vector-icons";
 
+export interface AddPreferencesListItemModalRef {
+  showModal: (universityPreferenceId: string) => void;
+}
+
 const { width, height } = Dimensions.get("window");
-const AddPreferencesListItemModal = ({
-  modalVisible,
-  setModalVisible,
-  universityPreferenceId,
-}) => {
+const AddPreferencesListItemModal: React.ForwardRefRenderFunction<
+  AddPreferencesListItemModalRef
+> = (_, ref) => {
   const [preferenceInput, setPreferenceInput] = useState("");
   const [showInput, setShowInput] = useState(false);
   const { data, isLoading, mutate } = getPreferenceList();
   const { trigger } = addPreferenceList();
   const { trigger: addPreferenceItemTrigger } = addPreferenceItem();
   const { show, isLoaded, isShowing } = AdFullscreen();
+  const [modalVisible, setModalVisible] = useState(false);
+  const universityPreferenceIdRef = useRef<string>("");
+  useImperativeHandle(
+    ref,
+    () => ({
+      showModal,
+    }),
+    []
+  );
+  const showModal = (universityPreferenceId: string) => {
+    setModalVisible(true);
+    universityPreferenceIdRef.current = universityPreferenceId;
+  };
 
   const _handleAddPreferenceList = async () => {
     const result = await trigger({ name: preferenceInput } as any);
@@ -51,7 +71,7 @@ const AddPreferencesListItemModal = ({
 
   const _handleAddPreferenceItem = async (preferenceListId) => {
     const result = await addPreferenceItemTrigger({
-      universityPreferenceId: universityPreferenceId,
+      universityPreferenceId: universityPreferenceIdRef.current,
       preferenceListId: preferenceListId,
     } as any);
     if (result.isSuccessfull) {
@@ -207,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPreferencesListItemModal;
+export default forwardRef(AddPreferencesListItemModal);
