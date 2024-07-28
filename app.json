@@ -11,7 +11,7 @@
           },
           "ios": {
             "useFrameworks": "static",
-            "deploymentTarget": "13.0"
+            "deploymentTarget": "13.4"
           }
         }
       ],
@@ -20,7 +20,7 @@
     "name": "Tercih Asistanı",
     "slug": "tercih-asistani",
     "scheme": "tercih-asistani",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -37,7 +37,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.8.1",
+      "buildNumber": "1.9.0",
       "bundleIdentifier": "com.tercih-asistani.app",
       "supportsTablet": true,
       "appStoreUrl": "https://apps.apple.com/tr/app/tercih-asistan%C4%B1/id6451269651?l=tr",
@@ -45,7 +45,7 @@
       "icon": "./assets/icon.png"
     },
     "android": {
-      "versionCode": 9,
+      "versionCode": 10,
       "package": "com.tercih_asistani.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -62,7 +62,7 @@
       "eas": {
         "projectId": "0381792d-38c0-4666-a966-5f8e90b35e50"
       },
-      "mobileApplicationNextVersionNumber": 9
+      "mobileApplicationNextVersionNumber": 10
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
